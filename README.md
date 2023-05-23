@@ -123,8 +123,10 @@ const RQOdnBuoy = () => {
 - `Polling`
 
   - 리얼타임 웹을 위한 기법으로 일정한 주기(특정한 시간)를 가지고 서버와 응답을 주고받는 방식
-  - `refetchInterval: number` - 시간(ms)을 값으로 넣어주면 일정 시간마다 자동으로 `refetch`
-  - `refetchIntervalInBackground: boolean` - 브라우저에 `focus`되어 있지 않아도 `refetch`를 시켜주는 것을 의미
+  - `refetchInterval: number | false | ((data: TData | undefined, query: Query) => number | false)`
+    - 시간(ms)을 값으로 넣어주면 일정 시간마다 자동으로 `refetch`
+  - `refetchIntervalInBackground: boolean`
+    - 브라우저에 `focus`되어 있지 않아도 `refetch`를 시켜주는 것을 의미
 
 - `retry: boolean | number | (failureCount: number, error: TError) => boolean`
 
@@ -132,6 +134,37 @@ const RQOdnBuoy = () => {
   - `false`인 경우, 실패한 쿼리는 기본적으로 다시 시도하지 않음
   - `true`인 경우에는 실패한 쿼리에 대해서 무한 재요청을 시도
   - Default: `3`
+
+- `select`
+
+  - 해당 쿼리 함수에서 반환된 데이터의 일부를 변환하거나 선택할 수 있는 옵션
+
+    ```JavaScript
+    import React from "react";
+    import { useQuery } from "@tanstack/react-query";
+    import axios from "axios";
+
+    const RQOdnBuoy = () => {
+      const getBuoyData = async () => {
+        return await axios.get("https://api.odn-it.com/devices/");
+      };
+
+      const { status, data, error } = useQuery(
+        queryKey, // v4부터 배열의 형태로 작성 ex) ["buoy"]
+        queryFn, // Promise를 반환하는 함수 ex) getBuoyData
+        {
+        // 기타 옵션 ex) cacheTime, staleTime, refetchOnWindowFocus, refetchOnMount, retry, ...
+        select: (data) => {
+          const allData = data?.data.results.map((res) => res);
+          // 데이터 사용 시, allData.device_id로 비교적 짧은 코드로 작성할 수 있도록 변환
+          return allData;
+        },
+      });
+
+      // ...
+
+    };
+    ```
 
 <br/>
 
