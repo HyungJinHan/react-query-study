@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -11,6 +11,7 @@ const RQOdnBuoy = () => {
     cacheTime: 5 * 60 * 1000, // 5분
     staleTime: 1 * 60 * 1000, // 1분
     refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
+    refetchOnMount: true,
     retry: 2, // error시 fetch 재시도
   });
   // ["buoy"] -> queryFn
@@ -26,48 +27,50 @@ const RQOdnBuoy = () => {
   }
 
   return (
-    <Fragment>
-      <h2>React-Query ODN Buoy Infomation</h2>
-      {data?.data.results.map((res) => {
-        return (
-          <div key={res.device_id} style={{ paddingBottom: "1.25rem" }}>
-            <div style={{ paddingBottom: ".5rem" }}>
-              <span>
-                <b>Device ID : </b>
-              </span>
-              <span>
-                {res.serial_number}
-                {res.device_id}
-              </span>
-            </div>
+    <div style={{ alignItems: "center" }}>
+      <div style={{ width: "95%", margin: "0 auto" }}>
+        <h2>React-Query ODN Buoy Infomation</h2>
+        {data?.data.results.map((res) => {
+          return (
+            <div key={res.device_id} style={{ paddingBottom: "1.25rem" }}>
+              <div style={{ paddingBottom: ".5rem" }}>
+                <span>
+                  <b>Device ID : </b>
+                </span>
+                <span>
+                  {res.serial_number}
+                  {res.device_id}
+                </span>
+              </div>
 
-            <div style={{ paddingBottom: ".5rem" }}>
-              <span>
-                <b>Battery : </b>
-              </span>
-              <span>{res.battery}%</span>
-            </div>
+              <div style={{ paddingBottom: ".5rem" }}>
+                <span>
+                  <b>Battery : </b>
+                </span>
+                <span>{res.battery}%</span>
+              </div>
 
-            <div style={{ paddingBottom: ".5rem" }}>
-              <span>
-                <b>Operating State </b>
-              </span>
-              <div
-                style={{
-                  width: ".75rem",
-                  height: ".75rem",
-                  borderRadius: "100%",
-                  backgroundColor:
-                    res.operating_state === true ? "green" : "red",
-                  display: "inline-flex",
-                  marginLeft: ".3125rem",
-                }}
-              />
+              <div style={{ paddingBottom: ".5rem" }}>
+                <span>
+                  <b>Operating State </b>
+                </span>
+                <div
+                  style={{
+                    width: ".75rem",
+                    height: ".75rem",
+                    borderRadius: "100%",
+                    backgroundColor:
+                      res.operating_state === true ? "green" : "red",
+                    display: "inline-flex",
+                    marginLeft: ".3125rem",
+                  }}
+                />
+              </div>
             </div>
-          </div>
-        );
-      })}
-    </Fragment>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 

@@ -1,70 +1,93 @@
-# Getting Started with Create React App
+# React-Query 설치
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```bash
+# v3
+npm i react-query
+# devtools는 자동으로 설치
+# or
+yarn add  react-query
+# devtools는 자동으로 설치
 
-## Available Scripts
+# v4
+npm i @tanstack/react-query
+npm i @tanstack/react-query-devtools
+# or
+yarn add @tanstack/react-query
+yarn add @tanstack/react-query-devtools
+```
 
-In the project directory, you can run:
+<br/>
 
-### `npm start`
+# `Client Props` 연결 / `DevTools` 사용
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```JavaScript
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 
-### `npm test`
+const queryClient = new QueryClient();
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <QueryClientProvider client={queryClient}> {/* client props 연결 */}
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+    <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> {/* dev tool 사용 */}
+  </QueryClientProvider>
+);
 
-### `npm run build`
+reportWebVitals();
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<br/>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# `useQuery`
 
-### `npm run eject`
+```JavaScript
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+const RQOdnBuoy = () => {
+  const getBuoyData = async () => {
+    return await axios.get("http://localhost:4000/superheroes");
+    // json-server 사용
+  };
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  const { status, data, error } = useQuery(
+    queryKey, // v4부터 배열의 형태로 작성 ex) ["buoy"]
+    queryFn, // Promise를 반환하는 함수 ex) getBuoyData
+    {
+    // 기타 옵션 ex) enable, staleTime, ...
+  });
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+  // ...
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+};
+```
 
-## Learn More
+## `useQuery`의 return값
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- `status: string` - 쿼리 요청 함수의 상태를 표현하는 문자열 형태의 값 (에러 핸들링 가능)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  - `loading` - 캐시된 데이터가 없고 로딩 중인 상태
+  - `error` - 요청 에러 발생 시의 상태
+  - `success` - 요청 성공 시의 상태
 
-### Code Splitting
+- `data: TData` - Default는 `undefined`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- `isLoading: boolean` - 캐싱 된 데이터가 있다면 로딩 여부와 상관없이 `false`를 반환
 
-### Analyzing the Bundle Size
+- `isError: boolean` - 에러가 발생할 시, `true`값 반환
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- `isFetched: boolean` - 쿼리가 실행되며 `fetching` 진행 중(로딩)일 시, `boolean`을 반환
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- `error: null | TError` - 쿼리 함수에 오류가 발생할 시, 쿼리에 대한 오튜 객체를 반환
