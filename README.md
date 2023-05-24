@@ -5,7 +5,7 @@
 npm i react-query
 # devtools는 자동으로 설치
 # or
-yarn add  react-query
+yarn add react-query
 # devtools는 자동으로 설치
 
 # v4
