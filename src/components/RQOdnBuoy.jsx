@@ -27,12 +27,12 @@ const RQOdnBuoy = () => {
     <div style={{ alignItems: "center" }}>
       <div style={{ width: "95%", margin: "0 auto" }}>
         <h2>React-Query ODN Buoy Infomation</h2>
-        <button onClick={refetch}>Fetch Data</button>
+        {/* <button onClick={refetch}>Fetch Data</button> */}
         {data?.map((allData) => {
           return (
             <div
               key={allData.device_id}
-              style={{ paddingBottom: "1.25rem", paddingTop: "1.25rem" }}
+              style={{ paddingBottom: ".625rem", paddingTop: ".625rem" }}
             >
               <div style={{ paddingBottom: ".5rem" }}>
                 <span>

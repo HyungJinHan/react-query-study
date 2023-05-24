@@ -9,10 +9,13 @@ const Nav = () => {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/buoy">ODN Buoy Infomation</Link>
+          <Link to="/buoy">Buoy Info</Link>
         </li>
         <li>
-          <Link to="/rq-buoy">RQ ODN Buoy</Link>
+          <Link to="/rq-buoy">RQ Buoy Info</Link>
+        </li>
+        <li>
+          <Link to="/rq-dynamic-parallel">RQ Dynamic Parallel</Link>
         </li>
       </ul>
     </nav>
