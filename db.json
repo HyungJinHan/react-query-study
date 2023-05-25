@@ -29,6 +29,16 @@
       "id": 6,
       "name": "Thor",
       "alterEgo": "Thor Odinson"
+    },
+    {
+      "name": "The Flash",
+      "alterEgo": "Barry Allen",
+      "id": 7
+    },
+    {
+      "name": "Hulk",
+      "alterEgo": "Bruce Banner",
+      "id": 8
     }
   ]
 }

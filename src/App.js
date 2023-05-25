@@ -7,6 +7,8 @@ import OdnBuoy from "./components/OdnBuoy";
 import RQOdnBuoy from "./components/RQOdnBuoy";
 import RQOdnBuoyDetail from "./components/RQOdnBuoyDetail";
 import RQDynamicParallel from "./components/RQDynamicParallel";
+import RQHeros from "./components/RQHeros";
+import RQHeroDetail from "./components/RQHeroDetail";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           path="/rq-dynamic-parallel"
           element={<RQDynamicParallel ids={[10, 12]} />}
         />
+        <Route path="/rq-hero" element={<RQHeros />} />
+        <Route path="/rq-hero/:id" element={<RQHeroDetail />} />
       </Routes>
     </Fragment>
   );
