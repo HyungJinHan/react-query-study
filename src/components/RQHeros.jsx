@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useHeros } from "../hooks/useHeros";
+import { useHeroes } from "../hooks/useHeroes";
 import { useAddHero, useDeleteHero } from "../hooks/useMutation";
 
 const RQHeros = () => {
@@ -8,11 +8,9 @@ const RQHeros = () => {
   const [name, setName] = useState("");
   const [alterEgo, setAlterEgo] = useState("");
 
-  const { status, data, error, isFetching, refetch } = useHeros(pageNum);
+  const { status, data, error, isFetching, refetch } = useHeroes(pageNum);
   const { mutate: addHero } = useAddHero();
   const { mutate: deleteHero } = useDeleteHero();
-
-  console.log(data?.length);
 
   const handleAddHero = () => {
     const hero = { name, alterEgo };
@@ -60,7 +58,15 @@ const RQHeros = () => {
             style={{ marginRight: ".625rem" }}
           />
 
-          <button onClick={handleAddHero}>Add Hero</button>
+          <button
+            onClick={() => {
+              handleAddHero();
+              setName("");
+              setAlterEgo("");
+            }}
+          >
+            Add Hero
+          </button>
         </div>
 
         <div style={{ marginBottom: ".625rem" }}>
