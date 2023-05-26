@@ -9,6 +9,10 @@ const getOxygenData = async ({ queryKey }) => {
   );
 };
 
+const getNextOxygenData = async (nextPageUri) => {
+  return await axios.get(`${nextPageUri}`);
+};
+
 export const useBuoyOxygen = (id, pageNum) => {
   return useQuery(["oxygen", id, pageNum], getOxygenData, {
     cacheTime: 5 * 60 * 1000, // 5분
@@ -20,7 +24,26 @@ export const useBuoyOxygen = (id, pageNum) => {
     // refetchIntervalInBackground: false,
     select: (data) => {
       const oxygenData = data?.data.results?.map((res) => res);
+      console.log(data?.data.next);
       return oxygenData;
     },
   });
 };
+
+// export const useNextBuoyOxygen = (id, pageNum) => {
+//   const { data: nextPage } = useQuery(["oxygen", id, pageNum], getOxygenData, {
+//     // select: (data) => {
+//     //   const nextPage = data?.data?.next;
+//     //   console.log(nextPage);
+//     //   return nextPage;
+//     // },
+//   });
+
+//   const nextPageUri = nextPage?.data.next;
+
+//   useQuery(["next", nextPageUri], () => getNextOxygenData(nextPageUri), {
+//     enabled: !!nextPageUri,
+//   });
+//   console.log(nextPage);
+//   return nextPageUri;
+// };

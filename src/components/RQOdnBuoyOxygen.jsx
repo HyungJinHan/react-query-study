@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useBuoyOxygen } from "../hooks/useBuoyOxygen";
+import { useBuoyOxygen, useNextBuoyOxygen } from "../hooks/useBuoyOxygen";
 import { useLocation } from "react-router-dom";
 
 const RQOdnBuoyOxygen = () => {
@@ -7,6 +7,9 @@ const RQOdnBuoyOxygen = () => {
   const location = useLocation();
   const { id, deviceID, serialNumber } = location.state;
   const { status, data, error, isFetching } = useBuoyOxygen(id, pageNum);
+  // const { data: nextData } = useNextBuoyOxygen();
+
+  // console.log(nextData);
 
   if (isFetching) {
     return (
