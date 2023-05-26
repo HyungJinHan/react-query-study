@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useHeroes } from "../hooks/useHeroes";
+import { useHeroes, useNextHeroes } from "../hooks/useHeroes";
 import { useAddHero, useDeleteHero } from "../hooks/useMutation";
 
-const RQHeros = () => {
+const RQHeroes = () => {
   const [pageNum, setPageNum] = useState(1);
   const [name, setName] = useState("");
   const [alterEgo, setAlterEgo] = useState("");
 
   const { status, data, error, isFetching, refetch } = useHeroes(pageNum);
+  const { data: NextData } = useNextHeroes(pageNum);
   const { mutate: addHero } = useAddHero();
   const { mutate: deleteHero } = useDeleteHero();
+  console.log(NextData?.length);
 
   const handleAddHero = () => {
     const hero = { name, alterEgo };
@@ -47,13 +49,13 @@ const RQHeros = () => {
         <div style={{ paddingBottom: "1.25rem" }}>
           <input
             type="text"
-            valut={name}
+            value={name}
             onChange={(e) => setName(e.target.value)}
             style={{ marginRight: ".625rem" }}
           />
           <input
             type="text"
-            valut={alterEgo}
+            value={alterEgo}
             onChange={(e) => setAlterEgo(e.target.value)}
             style={{ marginRight: ".625rem" }}
           />
@@ -81,7 +83,7 @@ const RQHeros = () => {
               <div style={{ paddingBottom: ".5rem" }}>
                 <span>
                   <b>{hero.id}.&nbsp;</b>
-                  <Link to={`/rq-hero/${hero.id}`}>
+                  <Link to={`/rq-hero/${hero.id}`} state={pageNum}>
                     <b>{hero.name}</b>
                   </Link>
                 </span>
@@ -95,22 +97,24 @@ const RQHeros = () => {
             </div>
           );
         })}
-        <button
-          onClick={() => setPageNum((page) => page - 1)}
-          disabled={pageNum === 1}
-        >
-          &lt;
-        </button>
-        <span style={{ padding: "0px 10px 0px 10px" }}>{pageNum}</span>
-        <button
-          onClick={() => setPageNum((page) => page + 1)}
-          disabled={data.length < 5}
-        >
-          &gt;
-        </button>
+        <div style={{ marginBottom: ".625rem" }}>
+          <button
+            onClick={() => setPageNum((page) => page - 1)}
+            disabled={pageNum === 1}
+          >
+            &lt;
+          </button>
+          <span style={{ padding: "0px 10px 0px 10px" }}>{pageNum}</span>
+          <button
+            onClick={() => setPageNum((page) => page + 1)}
+            disabled={NextData?.length < 1}
+          >
+            &gt;
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default RQHeros;
+export default RQHeroes;

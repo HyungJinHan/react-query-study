@@ -6,10 +6,10 @@ const getHeroDetail = async ({ queryKey }) => {
   return await axios.get(`http://localhost:5000/superheroes/${id}`);
 };
 
-export const useHeroDetail = (id) => {
+export const useHeroDetail = (id, pageNum) => {
   const queryClient = useQueryClient();
 
-  return useQuery(["detail", id], getHeroDetail, {
+  return useQuery(["hero-detail", id], getHeroDetail, {
     cacheTime: 5 * 60 * 1000, // 5분
     staleTime: 1 * 60 * 1000, // 1분
     refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
@@ -23,13 +23,14 @@ export const useHeroDetail = (id) => {
     },
     initialData: () => {
       const cacheData = queryClient
-        .getQueryData(["heroes"])
+        .getQueryData(["heroes", pageNum])
         ?.data?.find((hero) => hero.id === parseInt(id));
 
       if (cacheData) {
         console.log({ cacheData: cacheData });
         return { data: cacheData };
       } else {
+        console.log({ cacheData: undefined });
         return undefined;
       }
     },

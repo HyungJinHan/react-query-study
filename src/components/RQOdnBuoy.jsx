@@ -3,7 +3,7 @@ import { useBuoy } from "../hooks/useBuoy";
 import { Link } from "react-router-dom";
 
 const RQOdnBuoy = () => {
-  const { status, data, error, isFetching, refetch } = useBuoy();
+  const { status, data, error, isFetching } = useBuoy();
 
   if (isFetching) {
     return (
@@ -27,7 +27,6 @@ const RQOdnBuoy = () => {
     <div style={{ alignItems: "center" }}>
       <div style={{ width: "95%", margin: "0 auto" }}>
         <h2>React-Query ODN Buoy Infomation</h2>
-        {/* <button onClick={refetch}>Fetch Data</button> */}
         {data?.map((allData) => {
           return (
             <div

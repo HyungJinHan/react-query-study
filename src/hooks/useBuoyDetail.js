@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
 const getBuoyData = async (id) => {
@@ -6,8 +6,10 @@ const getBuoyData = async (id) => {
 };
 
 export const useBuoyDetail = (id) => {
+  const queryClient = useQueryClient();
+
   return useQuery(
-    ["buoy", id],
+    ["buoy-detail", id],
     // ["buoy", id] -> queryFn
     () => getBuoyData(id),
     {
@@ -20,8 +22,20 @@ export const useBuoyDetail = (id) => {
       // refetchIntervalInBackground: false,
       select: (data) => {
         const detailData = data?.data;
-        console.log(detailData);
         return detailData;
+      },
+      initialData: () => {
+        const cacheData = queryClient
+          .getQueryData(["buoy"])
+          ?.data?.results?.find((data) => data.device_id === parseInt(id));
+
+        if (cacheData) {
+          console.log({ cacheData: cacheData });
+          return { data: cacheData };
+        } else {
+          console.log({ cacheData: undefined });
+          return undefined;
+        }
       },
     }
   );

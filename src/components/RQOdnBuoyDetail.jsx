@@ -1,19 +1,12 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useBuoyDetail } from "../hooks/useBuoyDetail";
-import { useBuoyOxygen } from "../hooks/useBuoyOxygen";
 
 const RQOdnBuoyDetail = () => {
   const { id } = useParams();
   const { status, data, error, isFetching } = useBuoyDetail(id);
-  const {
-    status: Ostaus,
-    data: Odata,
-    error: Oerror,
-    isFetching: OisFetching,
-  } = useBuoyOxygen(id);
 
-  if (isFetching || OisFetching) {
+  if (isFetching) {
     return (
       <div style={{ width: "95%", margin: "0 auto" }}>
         <h2>Loading...</h2>
@@ -22,15 +15,11 @@ const RQOdnBuoyDetail = () => {
   }
 
   /** 아래 코드로 에러 핸들링 끝 */
-  if (status === "error" || Ostaus === "error") {
+  if (status === "error") {
     // status -> success, loading, error...
     return (
       <div style={{ width: "95%", margin: "0 auto" }}>
-        {status === "error" ? (
-          <h2>Buoy Data Error : {error.message}</h2>
-        ) : (
-          <h2>Oxygen Data Error : {Oerror.message}</h2>
-        )}
+        <h2>Buoy Data Error : {error.message}</h2>
       </div>
     );
   }
@@ -45,10 +34,7 @@ const RQOdnBuoyDetail = () => {
           </span>
         </h2>
 
-        <div
-          key={data?.device_id}
-          style={{ paddingBottom: "1.25rem", paddingTop: "1.25rem" }}
-        >
+        <div style={{ paddingBottom: "1.25rem", paddingTop: "1.25rem" }}>
           <div style={{ paddingBottom: ".5rem" }}>
             <span>
               <b>Device Type : </b>
@@ -72,38 +58,6 @@ const RQOdnBuoyDetail = () => {
 
           <div style={{ paddingBottom: ".5rem" }}>
             <span>
-              <b>Oxygen Sensor Serial Number : </b>
-            </span>
-            <span>
-              {Odata?.serial_number}
-              {data?.device_id}
-            </span>
-          </div>
-
-          <div style={{ paddingBottom: ".5rem" }}>
-            <span>
-              <b>Temperature : </b>
-            </span>
-            {Odata?.temperature === undefined ? (
-              <span>N/A</span>
-            ) : (
-              <span>{(Odata?.temperature).toFixed(2)}℃</span>
-            )}
-          </div>
-
-          <div style={{ paddingBottom: ".5rem" }}>
-            <span>
-              <b>Location : </b>
-            </span>
-            {Odata?.location?.address === undefined ? (
-              <span>N/A</span>
-            ) : (
-              <span>{Odata?.location?.address}</span>
-            )}
-          </div>
-
-          <div style={{ paddingBottom: ".5rem" }}>
-            <span>
               <b>Operating State </b>
             </span>
             <div
@@ -117,6 +71,24 @@ const RQOdnBuoyDetail = () => {
                 marginLeft: ".3125rem",
               }}
             />
+          </div>
+
+          <div>
+            <span>
+              <Link
+                to={`/rq-buoy/${id}/oxygen`}
+                state={{
+                  id: id,
+                  deviceID: data?.device_id,
+                  serialNumber: data?.serial_number,
+                }}
+              >
+                <b>
+                  {data?.serial_number}
+                  {data?.device_id} Oxygen Data
+                </b>
+              </Link>
+            </span>
           </div>
         </div>
       </div>
