@@ -21,7 +21,6 @@ export const useBuoy = () => {
       // enabled: false,
       select: (data) => {
         const allData = data?.data.results.map((res) => res);
-        console.log(allData);
         return allData;
       },
     }

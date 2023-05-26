@@ -17,6 +17,9 @@ const Nav = () => {
         <li>
           <Link to="/rq-dynamic-parallel">RQ Dynamic Parallel</Link>
         </li>
+        <li>
+          <Link to="/rq-hero">RQ Hero Data</Link>
+        </li>
       </ul>
     </nav>
   );

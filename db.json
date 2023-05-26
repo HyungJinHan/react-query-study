@@ -1,9 +1,9 @@
 {
-  "superheros": [
+  "superheroes": [
     {
-      "id": 1,
       "name": "Batman",
-      "alterEgo": "Bruce Wayne"
+      "alterEgo": "Bruce Wayne",
+      "id": 1
     },
     {
       "id": 2,
@@ -21,14 +21,29 @@
       "alterEgo": "Steve Rogers"
     },
     {
-      "id": 5,
       "name": "Iron Man",
-      "alterEgo": "Tony Stark"
+      "alterEgo": "Tony Stark",
+      "id": 5
     },
     {
       "id": 6,
       "name": "Thor",
       "alterEgo": "Thor Odinson"
+    },
+    {
+      "name": "The Flash",
+      "alterEgo": "Barry Allen",
+      "id": 7
+    },
+    {
+      "name": "Hulk",
+      "alterEgo": "Bruce Banner",
+      "id": 8
+    },
+    {
+      "name": "Update Test",
+      "alterEgo": "Update Test Text",
+      "id": 9
     }
   ]
 }
