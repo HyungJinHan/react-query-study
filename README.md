@@ -1,4 +1,43 @@
-# React-Query 설치
+## 목차
+
+- [React-Query 설치](#react-query-설치)
+- [`Client Props` 연결](#client-props-연결)
+- [`DevTools` 사용](#devtools-사용)
+- [`useQuery`](#usequery)
+  - [`useQuery`의 return 값](#usequery의-return-값)
+  - [`useQuery`의 Options](#usequery의-options)
+- [`useQueries`](#usequeries)
+  - [`useQuery` 여러 개 🤜 🔥 🤛 `useQueries`](#usequery-여러-개---usequeries)
+    - [`useQuery` 여러 개](#usequery-여러-개)
+    - [`useQueries`의 Dynamic Parallel](#usequeries의-dynamic-parallel)
+  - [위의 코드를 통한 결론](#위의-코드를-통한-결론)
+- [`useQueryClient`](#usequeryclient)
+  - [기본 사용법](#기본-사용법)
+  - [Initail Query Data](#initail-query-data)
+    - [구현 코드 (Initail Query Data)](#구현-코드-initail-query-data)
+  - [`invalidateQueries`](#invalidatequeries)
+    - [구현 코드 (`invalidateQueries`)](#구현-코드-invalidatequeries)
+- [`useMutation` ✨](#usemutation-)
+  - [`useMutation`의 `return` 값](#usemutation의-return-값)
+    - [`mutate`](#mutate)
+  - [CRUD 구현 코드](#crud-구현-코드)
+    - [C - Create](#c---create)
+    - [R - Read](#r---read)
+    - [U - Update](#u---update)
+    - [D - Delete](#d---delete)
+- [`Pagenation`](#pagenation)
+  - [구현 코드 (`Pagenation`)](#구현-코드-pagenation)
+    - [부표 데이터의 용존산소 데이터](#부표-데이터의-용존산소-데이터)
+    - [위의 코드 추가 설명](#위의-코드-추가-설명)
+- [`Infinite Query`](#infinite-query)
+  - [`useInfiniteQuery`의 return 값](#useinfinitequery의-return-값)
+  - [`useInfiniteQuery`의 Options](#useinfinitequery의-options)
+  - [구현 코드 (`Infinite Query`)](#구현-코드-infinite-query)
+    - [부표 데이터의 용존산소 데이터](#부표-데이터의-용존산소-데이터-1)
+    - [위의 코드 추가 설명](#위의-코드-추가-설명-1)
+- [Error Handling](#error-handling)
+
+# [React-Query 설치](#목차)
 
 > 기본적인 사용 방식은 v4 버전을 기본값으로 코드를 작성
 
@@ -20,7 +59,36 @@ yarn add @tanstack/react-query-devtools
 
 <br/>
 
-# `Client Props` 연결 / `DevTools` 사용
+# `Client Props` 연결
+
+```JavaScript
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+
+const queryClient = new QueryClient();
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <QueryClientProvider client={queryClient}> {/* client props 연결 */}
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </QueryClientProvider>
+);
+
+reportWebVitals();
+
+```
+
+<br/>
+
+# [`DevTools` 사용](#목차)
 
 ```JavaScript
 import React from "react";
@@ -51,7 +119,7 @@ reportWebVitals();
 
 <br/>
 
-# `useQuery`
+# [`useQuery`](#목차)
 
 ```JavaScript
 import React from "react";
@@ -170,7 +238,7 @@ const RQOdnBuoy = () => {
 
 <br/>
 
-# `useQueries`
+# [`useQueries`](#목차)
 
 ## `useQuery` 여러 개 🤜 🔥 🤛 `useQueries`
 
@@ -279,7 +347,7 @@ const data = useQueries({
 
 <br/>
 
-# `useQueryClient`
+# [`useQueryClient`](#목차)
 
 - `QueryClient` 인스턴스를 반환하며, `QueryClient`를 통해 캐시와 상호작용함
 
@@ -297,7 +365,7 @@ const queryClient = useQueryClient();
 
 - `useQuery`의 `initialData` 옵션을 통해서 쿼리를 미리 채워 넣으므로써 초기 로드 상태를 건너 뛸 수 있음
 
-### 구현 코드
+### 구현 코드 (Initail Query Data)
 
 ```JavaScript
 export const useBuoyDetail = (id) => {
@@ -325,11 +393,11 @@ export const useBuoyDetail = (id) => {
 
         if (cacheData) {
           console.log({ cacheData: cacheData });
-					// {cacheData: {…}}
+          // {cacheData: {…}}
           return { data: cacheData };
         } else {
           console.log({ cacheData: undefined });
-					// {cacheData: undefined}
+          // {cacheData: undefined}
           return undefined;
         }
       },
@@ -348,7 +416,7 @@ export const useBuoyDetail = (id) => {
 
 - 해당 쿼리의 캐시를 무효화 할 수 있는 방법
 
-### 구현 코드
+### 구현 코드 (`invalidateQueries`)
 
 ```JavaScript
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -375,7 +443,7 @@ export const useAddHero = () => {
 
 <br/>
 
-# `useMutation` ✨
+# [`useMutation` ✨](#목차)
 
 > 데이터 통신의 CRUD 기능을 가능하게 해줌
 > 쉽게 생각해서 Create, Update, Delete는 `useMutation`를 사용하며, Read는 `useQuery`를 사용
@@ -386,9 +454,528 @@ export const useAddHero = () => {
 
 ## `useMutation`의 `return` 값
 
+### `mutate`
+
+- `mutation` 객체의 `mutate` 메서드를 통해 요청 함수를 호출하여 사용할 수 있음
+
+- `onSuccess / onError`
+
+  - 해당 메서드를 통해 성공했을 시, `response` 데이터를 핸들링할 수 있음
+
+## CRUD 구현 코드
+
+### C - Create
+
+- `RQHeroes.jsx`
+
+  ```JavaScript
+  import React, { useState } from "react";
+  import { Link } from "react-router-dom";
+  import { useHeroes } from "../hooks/useHeroes";
+  import { useAddHero } from "../hooks/useMutation";
+
+  const RQHeroes = () => {
+    const [name, setName] = useState("");
+    const [alterEgo, setAlterEgo] = useState("");
+
+    const { status, data, error, isFetching, refetch } = useHeroes();
+    const { mutate: addHero } = useAddHero();
+
+    const handleAddHero = () => {
+      const hero = { name, alterEgo };
+      addHero(hero);
+    };
+
+    if (isFetching) {
+      return (
+        // ...
+      );
+    }
+
+    /** 아래 코드로 에러 핸들링 끝 */
+    if (status === "error") {
+      // status -> success, loading, error...
+      return (
+        // ...
+      );
+    }
+
+    return (
+      // ...
+    );
+  };
+
+  export default RQHeroes;
+  ```
+
+- `useMutation.js` → `useAddHero()`
+
+  ```JavaScript
+  import { useMutation, useQueryClient } from "@tanstack/react-query";
+  import axios from "axios";
+
+  const addHeroData = async (hero) => {
+    return await axios.post("http://localhost:5000/superheroes", hero);
+  };
+
+  export const useAddHero = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation(addHeroData, {
+      onSuccess: () => {
+        queryClient.invalidateQueries("heroes");
+        // post, delete 시, 실시간으로 최신화 시켜주는 작업
+        // 키가 여러 개라면, ["heroes", "detail", ...]
+      },
+    });
+  };
+  ```
+
+### R - Read
+
+- [`useQuery` 부분 참고](#`useQuery`)
+
+### U - Update
+
+- `RQHeroDetail.jsx`
+
+  ```JavaScript
+  import React, { useState } from "react";
+  import { useLocation, useParams } from "react-router-dom";
+  import { useHeroDetail } from "../hooks/useHeroDetail";
+  import { useUpdateHero } from "../hooks/useMutation";
+
+  const RQHeroDetail = () => {
+    const { id } = useParams();
+    const location = useLocation();
+    const { status, data, error, isFetching } = useHeroDetail(id);
+    const [updateValue, setUpdateValue] = useState({
+      name: data?.name,
+      alterEgo: data?.alterEgo,
+    });
+    const name = updateValue.name;
+    const alterEgo = updateValue.alterEgo;
+    const hero = { name, alterEgo };
+    const { mutate: updateHero } = useUpdateHero(id, hero);
+    const [updateToggle, setUpdateToggle] = useState(false);
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setUpdateValue({ ...updateValue, [name]: value });
+    };
+
+    const handleUpdate = () => {
+      updateHero(id, hero);
+    };
+
+    if (isFetching) {
+      return (
+        // ...
+      );
+    }
+
+    /** 아래 코드로 에러 핸들링 끝 */
+    if (status === "error") {
+      // status -> success, loading, error...
+      return (
+        // ...
+      );
+    }
+
+    return (
+      // ...
+    );
+  };
+
+  export default RQHeroDetail;
+  ```
+
+- `useMutation.js` → `useUpdateHero()`
+
+  ```JavaScript
+  import { useMutation, useQueryClient } from "@tanstack/react-query";
+  import axios from "axios";
+
+  const updateHeroData = async (id, hero) => {
+    return await axios.put(`http://localhost:5000/superheroes/${id}`, hero);
+  };
+
+  export const useUpdateHero = (id, hero) => {
+    const queryClient = useQueryClient();
+
+    return useMutation(() => updateHeroData(id, hero), {
+      onSuccess: () => {
+        console.log({ updateValue: { id: id, hero: hero } });
+        // updateValue: {id: '9', hero: {…}}
+        queryClient.invalidateQueries("heroes");
+        // post, delete 시, 실시간으로 최신화 시켜주는 작업
+        // 키가 여러 개라면, ["heroes", "detail", ...]
+      },
+    });
+  };
+  ```
+
+### D - Delete
+
+- `RQHeroes.jsx`
+
+  ```JavaScript
+  import React, { useState } from "react";
+  import { Link } from "react-router-dom";
+  import { useHeroes } from "../hooks/useHeroes";
+  import { useAddHero, useDeleteHero } from "../hooks/useMutation";
+
+  const RQHeroes = () => {
+    const [name, setName] = useState("");
+    const [alterEgo, setAlterEgo] = useState("");
+
+    const { status, data, error, isFetching, refetch } = useHeroes();
+    const { mutate: addHero } = useAddHero();
+    const { mutate: deleteHero } = useDeleteHero();
+
+    const handleAddHero = () => {
+      const hero = { name, alterEgo };
+      addHero(hero);
+    };
+
+    const handleDeleteHero = (id) => {
+      deleteHero(id);
+    };
+
+    if (isFetching) {
+      return (
+        // ...
+      );
+    }
+
+    /** 아래 코드로 에러 핸들링 끝 */
+    if (status === "error") {
+      // status -> success, loading, error...
+      return (
+        // ...
+      );
+    }
+
+    return (
+      // ...
+    );
+  };
+
+  export default RQHeroes;
+  ```
+
+- `useMutation.js` → `useDeleteHero()`
+
+  ```JavaScript
+  import { useMutation, useQueryClient } from "@tanstack/react-query";
+  import axios from "axios";
+
+  const deleteHeroData = async (id) => {
+    return await axios.delete(`http://localhost:5000/superheroes/${id}`);
+  };
+
+  export const useDeleteHero = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation(deleteHeroData, {
+      onSuccess: () => {
+        queryClient.invalidateQueries("heroes");
+        // post, delete 시, 실시간으로 최신화 시켜주는 작업
+        // 키가 여러 개라면, ["heroes", "detail", ...]
+      },
+    });
+  };
+  ```
+
 <br/>
 
-# Error Handling
+# [`Pagenation`](#목차)
+
+> 해당 페이지네이션 구현을 위한 `page`, `size`, `limit` 등 해당 API에서의 설정법에 따라 코드가 변경될 수 있음
+> React-Query에서 지원하는 것이 아닌, `queryKey` 값을 통해 구현
+
+## 구현 코드 (`Pagenation`)
+
+> 실제 공식 사이트의 사용법과 다르게 해당 API의 데이터인 next uri 데이터를 통해 다음 데이터의 존재 여부를 체크하는 식으로 구현
+>
+> (다음 페이지 버튼 비활성화를 위함)
+
+### 부표 데이터의 용존산소 데이터
+
+- `RQOdnBuoyOxygen.jsx`
+
+  ```JavaScript
+  import React, { useState } from "react";
+  import { useBuoyOxygen } from "../hooks/useBuoyOxygen";
+  import { useLocation } from "react-router-dom";
+  import { useNextOxygen } from "../hooks/useNextOxygen";
+
+  const RQOdnBuoyOxygen = () => {
+    const [pageNum, setPageNum] = useState(1);
+    const location = useLocation();
+    const { id, deviceID, serialNumber } = location.state;
+    const { data: nextData } = useNextOxygen(id, pageNum);
+    const nextPage = nextData?.next;
+    // 다음 페이지에 데이터가 존재하는 지를 API 데이터를 통해 체크
+    const { status, data, error, isFetching } = useBuoyOxygen(id, pageNum);
+
+    if (isFetching) {
+      return (
+        // ...
+      );
+    }
+
+    /** 아래 코드로 에러 핸들링 끝 */
+    if (status === "error") {
+      // status -> success, loading, error...
+      return (
+        // ...
+      );
+    }
+
+    return (
+      // ...
+    );
+  };
+
+  export default RQOdnBuoyOxygen;
+  ```
+
+  - API 통신이기 때문에 다음 페이지에 대한 데이터가 존재하지 않아 `404` 에러가 뜨는 것을 방지
+
+  - 또한, 데이터를 전부 불러왔을 경우 다음 페이지 버튼을 `disabled` 하기 위한 작업을 진행
+
+    - 해당 API 데이터의 경우 `next` uri와 `previous` uri가 존재하기 때문에 위와 같이 사용이 가능
+
+- `useNextOxygen.js`
+
+  ```JavaScript
+  import { useQuery } from "@tanstack/react-query";
+  import axios from "axios";
+
+  const getNextData = async ({ queryKey }) => {
+    const id = queryKey[1];
+    const pageNum = queryKey[2];
+    return await axios.get(
+      `https://api.odn-it.com/devices/${id}/oxygens/?size=3&page=${pageNum}`
+    );
+  };
+
+  export const useNextOxygen = (id, pageNum) => {
+    return useQuery(["next-oxygen", id, pageNum], getNextData, {
+      select: (data) => {
+        const nextPage = data?.data;
+        return nextPage;
+      },
+    });
+  };
+  ```
+
+  - 다음 페이지의 데이터가 존재하는지의 여부를 체크하는 코드
+
+- `useBuoyOxygen.js`
+
+  ```JavaScript
+  import { useQuery } from "@tanstack/react-query";
+  import axios from "axios";
+
+  const getOxygenData = async ({ queryKey }) => {
+    const id = queryKey[1];
+    const pageNum = queryKey[2];
+    return await axios.get(
+      `https://api.odn-it.com/devices/${id}/oxygens/?size=3&page=${pageNum}`
+    );
+  };
+
+  export const useBuoyOxygen = (id, pageNum) => {
+    return useQuery(["oxygen", id, pageNum], getOxygenData, {
+      cacheTime: 5 * 60 * 1000, // 5분
+      staleTime: 1 * 60 * 1000, // 1분
+      refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
+      refetchOnMount: true,
+      retry: 2, // error시 fetch 재시도
+      select: (data) => {
+        const oxygenData = data?.data.results?.map((res) => res);
+        return oxygenData;
+      },
+    });
+  };
+  ```
+
+  - 실제 용존산소 데이터 불러오는 코드
+
+### 위의 코드 추가 설명
+
+- [해당 데이터의 REST API 주소 (ODN BUOY DATA API)](https://api.odn-it.com/devices/10/oxygens/?page=6&size=100)
+
+- 해당 API 데이터 구조상, 다음 페이지를 불러올 수 있도록 존재하는 `next` 데이터를 통해 다음 페이지에 해당하는 uri를 체크하도록 데이터 통신을 추가했음
+
+- 다음 페이지가 존재하지 않을 경우, API 데이터에서 자동으로 `next`에 해당하는 데이터를 `null`으로 출력하기 때문에, 다음 페이지가 `null`인 경우를 체크하여 데이터의 최종 페이지를 식별
+
+<br/>
+
+# [`Infinite Query`](#목차)
+
+> 주로 무한 스크롤에 사용
+
+## `useInfiniteQuery`의 return 값
+
+- `data.pages: TData[]`
+
+  - 해당 데이터의 모든 데이터를 담은 배열
+
+- `data.pageParams: unknown[]`
+
+  - 데이터를 불러올 때마다 해당 데이터의 params를 담은 배열
+
+- `isFetchingNextPage: boolean`
+
+  - 다음 페이지를 fetching 중일 경우 `true`
+
+- `isFetchingPreviousPage: boolean`
+
+  - 이전 페이지를 fetching 중일 경우 `true`
+
+- `fetchNextPage: (options?: FetchNextPageOptions) => Promise<UseInfiniteQueryResult>`
+
+  - 다음 페이지의 데이터를 fetch하기 위해 사용
+
+- `fetchPreviousPage: (options?: FetchPreviousPageOptions) => Promise<UseInfiniteQueryResult>`
+
+  - 이전 페이지의 데이터를 fetch하기 위해 사용
+
+- `hasNextPage: boolean`
+
+  - 다음 페이지의 데이터가 fetch 되었는지를 체크하여 fetch되었을 시 `true`
+
+- `hasPreviousPage: boolean`
+
+  - 이전 페이지의 데이터가 fetch 되었는지를 체크함
+
+## `useInfiniteQuery`의 Options
+
+- `pageParam`
+
+  - 해당 프로퍼티를 통해 무한 스크롤을 위한 페이지 값을 전달할 수 있음
+  - 아래의 예제의 경우, `getNextPageParam`의 조건을 통해 페이지를 추가적으로 증가하도록 구현
+  - <b>반드시 기본값으로 초기 페이지 값을 설정해야 함</b>
+
+- `getNextPageParam: (lastPage, allPages) => unknown | undefined`
+
+  - 첫 번째 인자 `lastPage`는 fetch한 가장 최근에 가져온 페이지 목록
+  - 두 번째 인자 `allPages`는 현재까지 가져온 모든 페이지 데이터
+
+- `getPreviousPageParam: (firstPage, allPages) => unknown | undefined`
+
+  - `getNextPageParam`의 반대의 속성을 가지고 있음
+
+## 구현 코드 (`Infinite Query`)
+
+> API 데이터의 특성을 이용하여 공식 설명 사이트의 예제와 구현하는 방식의 차이가 있음
+>
+> (해당 데이터 중, `next` / `previous` uri 데이터와 해당 데이터의 총 개수 데이터를 활용하여 구현)
+
+### 부표 데이터의 용존산소 데이터
+
+- `RQOdnInfiniteOxygen.jsx`
+
+  ```JavaScript
+  import React, { Fragment, useState } from "react";
+  import { useLocation } from "react-router-dom";
+  import { useInfiniteOxygen } from "../hooks/useInfinite";
+  import { useNextOxygen } from "../hooks/useNextOxygen";
+
+  const RQOdnInfiniteOxygen = () => {
+    const [pageNum, setPageNum] = useState(1);
+    const location = useLocation();
+    const { id, deviceID, serialNumber } = location.state;
+
+    const { data: nextData } = useNextOxygen(id, pageNum);
+
+    const pageCount = nextData?.count;
+    const nextPage = nextData?.next;
+
+    const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage } =
+      useInfiniteOxygen(id, pageCount);
+
+    /** 아래 코드로 에러 핸들링 끝 */
+    if (status === "error") {
+      // status -> success, loading, error...
+      return (
+        // ...
+      );
+    }
+
+    return (
+      // ...
+    );
+  };
+
+  export default RQOdnInfiniteOxygen;
+  ```
+
+- `useNextOxygen.js`
+
+  ```JavaScript
+  import { useQuery } from "@tanstack/react-query";
+  import axios from "axios";
+
+  const getNextData = async ({ queryKey }) => {
+    const id = queryKey[1];
+    const pageNum = queryKey[2];
+    return await axios.get(
+      `https://api.odn-it.com/devices/${id}/oxygens/?size=3&page=${pageNum}`
+    );
+  };
+
+  export const useNextOxygen = (id, pageNum) => {
+    return useQuery(["next-oxygen", id, pageNum], getNextData, {
+      select: (data) => {
+        const nextPage = data?.data;
+        return nextPage;
+      },
+    });
+  };
+  ```
+
+- `useInfinite.js`
+
+  ```JavaScript
+  import { useInfiniteQuery } from "@tanstack/react-query";
+  import axios from "axios";
+
+  const getOxygenData = async ({ queryKey, pageParam = 1 }) => {
+    const id = queryKey[1];
+    return await axios.get(
+      `https://api.odn-it.com/devices/${id}/oxygens/?size=3&page=${pageParam}`
+    );
+  };
+
+  export const useInfiniteOxygen = (id, pageCount) => {
+    return useInfiniteQuery(["oxygen-infinite", id], getOxygenData, {
+      cacheTime: 5 * 60 * 1000, // 5분
+      staleTime: 1 * 60 * 1000, // 1분
+      refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
+      refetchOnMount: true,
+      retry: 2, // error시 fetch 재시도
+      getNextPageParam: (_lastPage, allPages) => {
+        return allPages.length < pageCount && allPages.length + 1;
+      },
+    });
+  };
+  ```
+
+### 위의 코드 추가 설명
+
+- [해당 데이터의 REST API 주소 (ODN BUOY DATA API)](https://api.odn-it.com/devices/10/oxygens/?page=6&size=100)
+
+- 해당 API 데이터 구조상, 다음 페이지를 불러올 수 있도록 존재하는 `next` 데이터를 통해 다음 페이지에 해당하는 uri를 체크하도록 데이터 통신을 추가했음
+
+- 다음 페이지가 존재하지 않을 경우, API 데이터에서 자동으로 `next`에 해당하는 데이터를 `null`으로 출력하기 때문에, 다음 페이지가 `null`인 경우를 체크하여 데이터의 최종 페이지를 식별
+
+<br/>
+
+# [Error Handling](#목차)
 
 ```JavaScript
 import React from "react";
