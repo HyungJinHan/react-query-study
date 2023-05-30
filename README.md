@@ -1,5 +1,7 @@
 # React-Query 설치
 
+> 기본적인 사용 방식은 v4 버전을 기본값으로 코드를 작성
+
 ```bash
 # v3
 npm i react-query
@@ -165,6 +167,224 @@ const RQOdnBuoy = () => {
 
     };
     ```
+
+<br/>
+
+# `useQueries`
+
+## `useQuery` 여러 개 🤜 🔥 🤛 `useQueries`
+
+### `useQuery` 여러 개
+
+```JavaScript
+const getBuoyData = async (id) => {
+	return await axios.get(`https://api.odn-it.com/devices/${id}/`);
+};
+
+const { data: buoy10 } useQuery(["buoy", 10],
+		() => getBuoyData(10),
+		{
+	    cacheTime: 5 * 60 * 1000, // 5분
+	    staleTime: 1 * 60 * 1000, // 1분
+	    refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
+	    refetchOnMount: true,
+	    retry: 2, // error시 fetch 재시도
+			select: (data) => {
+        const detailData = data?.data;
+        return detailData;
+      },
+	  }
+	);
+
+const { data: buoy12 } useQuery(["buoy", 12],
+		() => getBuoyData(12),
+		{
+	    cacheTime: 5 * 60 * 1000, // 5분
+	    staleTime: 1 * 60 * 1000, // 1분
+	    refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
+	    refetchOnMount: true,
+	    retry: 2, // error시 fetch 재시도
+			select: (data) => {
+        const detailData = data?.data;
+        return detailData;
+      },
+	  }
+	);
+
+const { data: buoy14 } useQuery(["buoy", 14],
+		() => getBuoyData(14),
+		{
+	    cacheTime: 5 * 60 * 1000, // 5분
+	    staleTime: 1 * 60 * 1000, // 1분
+	    refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
+	    refetchOnMount: true,
+	    retry: 2, // error시 fetch 재시도
+			select: (data) => {
+        const detailData = data?.data;
+        return detailData;
+      },
+	  }
+	);
+
+const { data: buoy100 } useQuery(["buoy", 100],
+		() => getBuoyData(100),
+		{
+	    cacheTime: 5 * 60 * 1000, // 5분
+	    staleTime: 1 * 60 * 1000, // 1분
+	    refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
+	    refetchOnMount: true,
+	    retry: 2, // error시 fetch 재시도
+			select: (data) => {
+        const detailData = data?.data;
+        return detailData;
+      },
+	  }
+	);
+```
+
+### `useQueries`의 Dynamic Parallel
+
+```JavaScript
+const getBuoyData = async (id) => {
+  return await axios.get(`https://api.odn-it.com/devices/${id}/`);
+};
+
+const data = useQueries({
+    queries: [10, 12, 14, 100].map((id) => {
+      return {
+        queryKey: ["buoy", id],
+        queryFn: () => getOxygenData(id),
+        cacheTime: 5 * 60 * 1000, // 5분
+        staleTime: 1 * 60 * 1000, // 1분
+        refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
+        refetchOnMount: true,
+        retry: 2, // error시 fetch 재시도
+        enable: !!id,
+				select: (data) => {
+		      const detailData = data?.data;
+		      return detailData;
+		    },
+      };
+    }),
+  });
+```
+
+## 위의 코드를 통한 결론
+
+- 여러 개의 `useQuery`를 선언하는 경우, 일반적으로 쿼리 함수들은 병렬로 요청돼서 처리됨
+
+- 쿼리 여러 개를 동시에 수행하는 경우, 렌더링이 거듭될 때마다 계혹 쿼리가 수행되야 하는 경우가 발생
+
+- 이러한 쿼리 수행 로직이 결국 hook 규칙에 어긋날 수도 있기 때문에 `useQueries`를 사용하여 코드의 가독성과 길이, 효율성을 극대화 할 수 있음
+
+<br/>
+
+# `useQueryClient`
+
+- `QueryClient` 인스턴스를 반환하며, `QueryClient`를 통해 캐시와 상호작용함
+
+## 기본 사용법
+
+```Javascript
+import { useQueryClient } from "react-query";
+
+const queryClient = useQueryClient();
+```
+
+## Initail Query Data
+
+- 쿼리에 대한 초기 데이터가 필요하기 전에 캐시에서 제공하여 초기값을 지정해주는 방법
+
+- `useQuery`의 `initialData` 옵션을 통해서 쿼리를 미리 채워 넣으므로써 초기 로드 상태를 건너 뛸 수 있음
+
+### 구현 코드
+
+```JavaScript
+export const useBuoyDetail = (id) => {
+  const queryClient = useQueryClient();
+
+  return useQuery(
+    ["buoy-detail", id],
+    () => getBuoyData(id),
+    {
+      cacheTime: 5 * 60 * 1000, // 5분
+      staleTime: 1 * 60 * 1000, // 1분
+      refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
+      refetchOnMount: true,
+      retry: 2, // error시 fetch 재시도
+      // refetchInterval: 5000, // polling (시간에 따라 refetch)
+      // refetchIntervalInBackground: false,
+      select: (data) => {
+        const detailData = data?.data;
+        return detailData;
+      },
+      initialData: () => {
+        const cacheData = queryClient
+          .getQueryData(["buoy"])
+          ?.data?.results?.find((data) => data.device_id === parseInt(id));
+
+        if (cacheData) {
+          console.log({ cacheData: cacheData });
+					// {cacheData: {…}}
+          return { data: cacheData };
+        } else {
+          console.log({ cacheData: undefined });
+					// {cacheData: undefined}
+          return undefined;
+        }
+      },
+    }
+  );
+};
+```
+
+- 위의 예시에서 `queryClient.getQueryData` 메서드는 기존 쿼리의 캐싱된 데이터를 가져오기 위해 사용할 수 있는 동기 함수
+
+  - 쿼리가 존재하지 않는다면 `undefined`를 반환
+
+- 해당 데이터의 형태를 정확히 할아야 `find`를 통해 같은 id 값을 찾아 캐시를 불러와 채울 수 있음
+
+## `invalidateQueries`
+
+- 해당 쿼리의 캐시를 무효화 할 수 있는 방법
+
+### 구현 코드
+
+```JavaScript
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+
+const addHeroData = async (hero) => {
+  return await axios.post("http://localhost:5000/superheroes", hero);
+};
+
+export const useAddHero = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(addHeroData, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("heroes");
+    },
+  });
+};
+```
+
+- 해당 구현 코드는 `useMutation`을 사용한 CRUD 예제 중 하나
+
+- 해당 쿼리를 통해 `queryKey`가 "heroes"인 쿼리의 캐시를 무효화하여 실시간으로 데이터를 최신화
+
+<br/>
+
+# `useMutation` ✨
+
+> 데이터 통신의 CRUD 기능을 가능하게 해줌
+> 쉽게 생각해서 Create, Update, Delete는 `useMutation`를 사용하며, Read는 `useQuery`를 사용
+>
+> > 여기서 사용할 예제는 부표 데이터가 아닌 json-server를 사용한 임의의 영웅 데이터를 통해 진행할 예정
+> >
+> > (부표 데이터 API의 경우, GET을 통해 데이터 조회만 가능)
+
+## `useMutation`의 `return` 값
 
 <br/>
 

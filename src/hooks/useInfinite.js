@@ -18,9 +18,5 @@ export const useInfiniteOxygen = (id, pageCount) => {
     getNextPageParam: (_lastPage, allPages) => {
       return allPages.length < pageCount && allPages.length + 1;
     },
-    // select: (data) => {
-    //   const oxygenData = data?.pages[0];
-    //   return oxygenData;
-    // },
   });
 };
