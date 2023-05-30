@@ -7,7 +7,7 @@
   - [`useQuery`의 return 값](#usequery의-return-값)
   - [`useQuery`의 Options](#usequery의-options)
 - [`useQueries`](#usequeries)
-  - [`useQuery` 여러 개 🤜 🔥 🤛 `useQueries`](#usequery-여러-개---usequeries)
+  - [`useQuery` 여러 개 VS `useQueries`](#usequery-여러-개-vs-usequeries)
     - [`useQuery` 여러 개](#usequery-여러-개)
     - [`useQueries`의 Dynamic Parallel](#usequeries의-dynamic-parallel)
   - [위의 코드를 통한 결론](#위의-코드를-통한-결론)
@@ -242,7 +242,7 @@ const RQOdnBuoy = () => {
 
 # [`useQueries`](#목차)
 
-## `useQuery` 여러 개 🤜 🔥 🤛 `useQueries`
+## `useQuery` 여러 개 VS `useQueries`
 
 ### `useQuery` 여러 개
 
