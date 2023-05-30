@@ -245,96 +245,96 @@ const RQOdnBuoy = () => {
 ### `useQuery` 여러 개
 
 ```JavaScript
-const getBuoyData = async (id) => {
-	return await axios.get(`https://api.odn-it.com/devices/${id}/`);
-};
+  const getBuoyData = async (id) => {
+    return await axios.get(`https://api.odn-it.com/devices/${id}/`);
+  };
 
-const { data: buoy10 } useQuery(["buoy", 10],
-		() => getBuoyData(10),
-		{
-	    cacheTime: 5 * 60 * 1000, // 5분
-	    staleTime: 1 * 60 * 1000, // 1분
-	    refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
-	    refetchOnMount: true,
-	    retry: 2, // error시 fetch 재시도
-			select: (data) => {
-        const detailData = data?.data;
-        return detailData;
-      },
-	  }
-	);
-
-const { data: buoy12 } useQuery(["buoy", 12],
-		() => getBuoyData(12),
-		{
-	    cacheTime: 5 * 60 * 1000, // 5분
-	    staleTime: 1 * 60 * 1000, // 1분
-	    refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
-	    refetchOnMount: true,
-	    retry: 2, // error시 fetch 재시도
-			select: (data) => {
-        const detailData = data?.data;
-        return detailData;
-      },
-	  }
-	);
-
-const { data: buoy14 } useQuery(["buoy", 14],
-		() => getBuoyData(14),
-		{
-	    cacheTime: 5 * 60 * 1000, // 5분
-	    staleTime: 1 * 60 * 1000, // 1분
-	    refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
-	    refetchOnMount: true,
-	    retry: 2, // error시 fetch 재시도
-			select: (data) => {
-        const detailData = data?.data;
-        return detailData;
-      },
-	  }
-	);
-
-const { data: buoy100 } useQuery(["buoy", 100],
-		() => getBuoyData(100),
-		{
-	    cacheTime: 5 * 60 * 1000, // 5분
-	    staleTime: 1 * 60 * 1000, // 1분
-	    refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
-	    refetchOnMount: true,
-	    retry: 2, // error시 fetch 재시도
-			select: (data) => {
-        const detailData = data?.data;
-        return detailData;
-      },
-	  }
-	);
-```
-
-### `useQueries`의 Dynamic Parallel
-
-```JavaScript
-const getBuoyData = async (id) => {
-  return await axios.get(`https://api.odn-it.com/devices/${id}/`);
-};
-
-const data = useQueries({
-    queries: [10, 12, 14, 100].map((id) => {
-      return {
-        queryKey: ["buoy", id],
-        queryFn: () => getOxygenData(id),
+  const { data: buoy10 } useQuery(["buoy", 10],
+      () => getBuoyData(10),
+      {
         cacheTime: 5 * 60 * 1000, // 5분
         staleTime: 1 * 60 * 1000, // 1분
         refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
         refetchOnMount: true,
         retry: 2, // error시 fetch 재시도
-        enable: !!id,
-				select: (data) => {
-		      const detailData = data?.data;
-		      return detailData;
-		    },
-      };
-    }),
-  });
+        select: (data) => {
+          const detailData = data?.data;
+          return detailData;
+        },
+      }
+    );
+
+  const { data: buoy12 } useQuery(["buoy", 12],
+      () => getBuoyData(12),
+      {
+        cacheTime: 5 * 60 * 1000, // 5분
+        staleTime: 1 * 60 * 1000, // 1분
+        refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
+        refetchOnMount: true,
+        retry: 2, // error시 fetch 재시도
+        select: (data) => {
+          const detailData = data?.data;
+          return detailData;
+        },
+      }
+    );
+
+  const { data: buoy14 } useQuery(["buoy", 14],
+      () => getBuoyData(14),
+      {
+        cacheTime: 5 * 60 * 1000, // 5분
+        staleTime: 1 * 60 * 1000, // 1분
+        refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
+        refetchOnMount: true,
+        retry: 2, // error시 fetch 재시도
+        select: (data) => {
+          const detailData = data?.data;
+          return detailData;
+        },
+      }
+    );
+
+  const { data: buoy100 } useQuery(["buoy", 100],
+      () => getBuoyData(100),
+      {
+        cacheTime: 5 * 60 * 1000, // 5분
+        staleTime: 1 * 60 * 1000, // 1분
+        refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
+        refetchOnMount: true,
+        retry: 2, // error시 fetch 재시도
+        select: (data) => {
+          const detailData = data?.data;
+          return detailData;
+        },
+      }
+    );
+```
+
+### `useQueries`의 Dynamic Parallel
+
+```JavaScript
+  const getBuoyData = async (id) => {
+    return await axios.get(`https://api.odn-it.com/devices/${id}/`);
+  };
+
+  const data = useQueries({
+      queries: [10, 12, 14, 100].map((id) => {
+        return {
+          queryKey: ["buoy", id],
+          queryFn: () => getOxygenData(id),
+          cacheTime: 5 * 60 * 1000, // 5분
+          staleTime: 1 * 60 * 1000, // 1분
+          refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
+          refetchOnMount: true,
+          retry: 2, // error시 fetch 재시도
+          enable: !!id,
+          select: (data) => {
+            const detailData = data?.data;
+            return detailData;
+          },
+        };
+      }),
+    });
 ```
 
 ## 위의 코드를 통한 결론
@@ -354,9 +354,9 @@ const data = useQueries({
 ## 기본 사용법
 
 ```Javascript
-import { useQueryClient } from "react-query";
+  import { useQueryClient } from "react-query";
 
-const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 ```
 
 ## Initail Query Data
@@ -368,42 +368,42 @@ const queryClient = useQueryClient();
 ### 구현 코드 (Initail Query Data)
 
 ```JavaScript
-export const useBuoyDetail = (id) => {
-  const queryClient = useQueryClient();
+  export const useBuoyDetail = (id) => {
+    const queryClient = useQueryClient();
 
-  return useQuery(
-    ["buoy-detail", id],
-    () => getBuoyData(id),
-    {
-      cacheTime: 5 * 60 * 1000, // 5분
-      staleTime: 1 * 60 * 1000, // 1분
-      refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
-      refetchOnMount: true,
-      retry: 2, // error시 fetch 재시도
-      // refetchInterval: 5000, // polling (시간에 따라 refetch)
-      // refetchIntervalInBackground: false,
-      select: (data) => {
-        const detailData = data?.data;
-        return detailData;
-      },
-      initialData: () => {
-        const cacheData = queryClient
-          .getQueryData(["buoy"])
-          ?.data?.results?.find((data) => data.device_id === parseInt(id));
+    return useQuery(
+      ["buoy-detail", id],
+      () => getBuoyData(id),
+      {
+        cacheTime: 5 * 60 * 1000, // 5분
+        staleTime: 1 * 60 * 1000, // 1분
+        refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
+        refetchOnMount: true,
+        retry: 2, // error시 fetch 재시도
+        // refetchInterval: 5000, // polling (시간에 따라 refetch)
+        // refetchIntervalInBackground: false,
+        select: (data) => {
+          const detailData = data?.data;
+          return detailData;
+        },
+        initialData: () => {
+          const cacheData = queryClient
+            .getQueryData(["buoy"])
+            ?.data?.results?.find((data) => data.device_id === parseInt(id));
 
-        if (cacheData) {
-          console.log({ cacheData: cacheData });
-          // {cacheData: {…}}
-          return { data: cacheData };
-        } else {
-          console.log({ cacheData: undefined });
-          // {cacheData: undefined}
-          return undefined;
-        }
-      },
-    }
-  );
-};
+          if (cacheData) {
+            console.log({ cacheData: cacheData });
+            // {cacheData: {…}}
+            return { data: cacheData };
+          } else {
+            console.log({ cacheData: undefined });
+            // {cacheData: undefined}
+            return undefined;
+          }
+        },
+      }
+    );
+  };
 ```
 
 - 위의 예시에서 `queryClient.getQueryData` 메서드는 기존 쿼리의 캐싱된 데이터를 가져오기 위해 사용할 수 있는 동기 함수
@@ -419,22 +419,22 @@ export const useBuoyDetail = (id) => {
 ### 구현 코드 (`invalidateQueries`)
 
 ```JavaScript
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+  import { useMutation, useQueryClient } from "@tanstack/react-query";
+  import axios from "axios";
 
-const addHeroData = async (hero) => {
-  return await axios.post("http://localhost:5000/superheroes", hero);
-};
+  const addHeroData = async (hero) => {
+    return await axios.post("http://localhost:5000/superheroes", hero);
+  };
 
-export const useAddHero = () => {
-  const queryClient = useQueryClient();
+  export const useAddHero = () => {
+    const queryClient = useQueryClient();
 
-  return useMutation(addHeroData, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("heroes");
-    },
-  });
-};
+    return useMutation(addHeroData, {
+      onSuccess: () => {
+        queryClient.invalidateQueries("heroes");
+      },
+    });
+  };
 ```
 
 - 해당 구현 코드는 `useMutation`을 사용한 CRUD 예제 중 하나
@@ -469,66 +469,66 @@ export const useAddHero = () => {
 - `RQHeroes.jsx`
 
   ```JavaScript
-  import React, { useState } from "react";
-  import { Link } from "react-router-dom";
-  import { useHeroes } from "../hooks/useHeroes";
-  import { useAddHero } from "../hooks/useMutation";
+    import React, { useState } from "react";
+    import { Link } from "react-router-dom";
+    import { useHeroes } from "../hooks/useHeroes";
+    import { useAddHero } from "../hooks/useMutation";
 
-  const RQHeroes = () => {
-    const [name, setName] = useState("");
-    const [alterEgo, setAlterEgo] = useState("");
+    const RQHeroes = () => {
+      const [name, setName] = useState("");
+      const [alterEgo, setAlterEgo] = useState("");
 
-    const { status, data, error, isFetching, refetch } = useHeroes();
-    const { mutate: addHero } = useAddHero();
+      const { status, data, error, isFetching, refetch } = useHeroes();
+      const { mutate: addHero } = useAddHero();
 
-    const handleAddHero = () => {
-      const hero = { name, alterEgo };
-      addHero(hero);
+      const handleAddHero = () => {
+        const hero = { name, alterEgo };
+        addHero(hero);
+      };
+
+      if (isFetching) {
+        return (
+          // ...
+        );
+      }
+
+      /** 아래 코드로 에러 핸들링 끝 */
+      if (status === "error") {
+        // status -> success, loading, error...
+        return (
+          // ...
+        );
+      }
+
+      return (
+        // ...
+      );
     };
 
-    if (isFetching) {
-      return (
-        // ...
-      );
-    }
-
-    /** 아래 코드로 에러 핸들링 끝 */
-    if (status === "error") {
-      // status -> success, loading, error...
-      return (
-        // ...
-      );
-    }
-
-    return (
-      // ...
-    );
-  };
-
-  export default RQHeroes;
+    export default RQHeroes;
   ```
 
 - `useMutation.js` → `useAddHero()`
 
   ```JavaScript
-  import { useMutation, useQueryClient } from "@tanstack/react-query";
-  import axios from "axios";
+    import { useMutation, useQueryClient } from "@tanstack/react-query";
+    import axios from "axios";
 
-  const addHeroData = async (hero) => {
-    return await axios.post("http://localhost:5000/superheroes", hero);
-  };
+    const addHeroData = async (hero) => {
+      return await axios.post("http://localhost:5000/superheroes", hero);
+    };
 
-  export const useAddHero = () => {
-    const queryClient = useQueryClient();
+    export const useAddHero = () => {
+      const queryClient = useQueryClient();
 
-    return useMutation(addHeroData, {
-      onSuccess: () => {
-        queryClient.invalidateQueries("heroes");
-        // post, delete 시, 실시간으로 최신화 시켜주는 작업
-        // 키가 여러 개라면, ["heroes", "detail", ...]
-      },
-    });
-  };
+      return useMutation(addHeroData, {
+        onSuccess: () => {
+          queryClient.invalidateQueries("heroes");
+          // post, delete 시, 실시간으로 최신화 시켜주는 작업
+          // 키가 여러 개라면, ["heroes", "detail", ...]
+        },
+      });
+    };
   ```
 
 ### R - Read
@@ -540,79 +540,79 @@ export const useAddHero = () => {
 - `RQHeroDetail.jsx`
 
   ```JavaScript
-  import React, { useState } from "react";
-  import { useLocation, useParams } from "react-router-dom";
-  import { useHeroDetail } from "../hooks/useHeroDetail";
-  import { useUpdateHero } from "../hooks/useMutation";
+    import React, { useState } from "react";
+    import { useLocation, useParams } from "react-router-dom";
+    import { useHeroDetail } from "../hooks/useHeroDetail";
+    import { useUpdateHero } from "../hooks/useMutation";
 
-  const RQHeroDetail = () => {
-    const { id } = useParams();
-    const location = useLocation();
-    const { status, data, error, isFetching } = useHeroDetail(id);
-    const [updateValue, setUpdateValue] = useState({
-      name: data?.name,
-      alterEgo: data?.alterEgo,
-    });
-    const name = updateValue.name;
-    const alterEgo = updateValue.alterEgo;
-    const hero = { name, alterEgo };
-    const { mutate: updateHero } = useUpdateHero(id, hero);
-    const [updateToggle, setUpdateToggle] = useState(false);
+    const RQHeroDetail = () => {
+      const { id } = useParams();
+      const location = useLocation();
+      const { status, data, error, isFetching } = useHeroDetail(id);
+      const [updateValue, setUpdateValue] = useState({
+        name: data?.name,
+        alterEgo: data?.alterEgo,
+      });
+      const name = updateValue.name;
+      const alterEgo = updateValue.alterEgo;
+      const hero = { name, alterEgo };
+      const { mutate: updateHero } = useUpdateHero(id, hero);
+      const [updateToggle, setUpdateToggle] = useState(false);
 
-    const handleChange = (e) => {
-      const { name, value } = e.target;
-      setUpdateValue({ ...updateValue, [name]: value });
-    };
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setUpdateValue({ ...updateValue, [name]: value });
+      };
 
-    const handleUpdate = () => {
-      updateHero(id, hero);
-    };
+      const handleUpdate = () => {
+        updateHero(id, hero);
+      };
 
-    if (isFetching) {
+      if (isFetching) {
+        return (
+          // ...
+        );
+      }
+
+      /** 아래 코드로 에러 핸들링 끝 */
+      if (status === "error") {
+        // status -> success, loading, error...
+        return (
+          // ...
+        );
+      }
+
       return (
         // ...
       );
-    }
+    };
 
-    /** 아래 코드로 에러 핸들링 끝 */
-    if (status === "error") {
-      // status -> success, loading, error...
-      return (
-        // ...
-      );
-    }
-
-    return (
-      // ...
-    );
-  };
-
-  export default RQHeroDetail;
+    export default RQHeroDetail;
   ```
 
 - `useMutation.js` → `useUpdateHero()`
 
   ```JavaScript
-  import { useMutation, useQueryClient } from "@tanstack/react-query";
-  import axios from "axios";
+    import { useMutation, useQueryClient } from "@tanstack/react-query";
+    import axios from "axios";
 
-  const updateHeroData = async (id, hero) => {
-    return await axios.put(`http://localhost:5000/superheroes/${id}`, hero);
-  };
+    const updateHeroData = async (id, hero) => {
+      return await axios.put(`http://localhost:5000/superheroes/${id}`, hero);
+    };
 
-  export const useUpdateHero = (id, hero) => {
-    const queryClient = useQueryClient();
+    export const useUpdateHero = (id, hero) => {
+      const queryClient = useQueryClient();
 
-    return useMutation(() => updateHeroData(id, hero), {
-      onSuccess: () => {
-        console.log({ updateValue: { id: id, hero: hero } });
-        // updateValue: {id: '9', hero: {…}}
-        queryClient.invalidateQueries("heroes");
-        // post, delete 시, 실시간으로 최신화 시켜주는 작업
-        // 키가 여러 개라면, ["heroes", "detail", ...]
-      },
-    });
-  };
+      return useMutation(() => updateHeroData(id, hero), {
+        onSuccess: () => {
+          console.log({ updateValue: { id: id, hero: hero } });
+          // updateValue: {id: '9', hero: {…}}
+          queryClient.invalidateQueries("heroes");
+          // post, delete 시, 실시간으로 최신화 시켜주는 작업
+          // 키가 여러 개라면, ["heroes", "detail", ...]
+        },
+      });
+    };
   ```
 
 ### D - Delete
@@ -620,71 +620,71 @@ export const useAddHero = () => {
 - `RQHeroes.jsx`
 
   ```JavaScript
-  import React, { useState } from "react";
-  import { Link } from "react-router-dom";
-  import { useHeroes } from "../hooks/useHeroes";
-  import { useAddHero, useDeleteHero } from "../hooks/useMutation";
+    import React, { useState } from "react";
+    import { Link } from "react-router-dom";
+    import { useHeroes } from "../hooks/useHeroes";
+    import { useAddHero, useDeleteHero } from "../hooks/useMutation";
 
-  const RQHeroes = () => {
-    const [name, setName] = useState("");
-    const [alterEgo, setAlterEgo] = useState("");
+    const RQHeroes = () => {
+      const [name, setName] = useState("");
+      const [alterEgo, setAlterEgo] = useState("");
 
-    const { status, data, error, isFetching, refetch } = useHeroes();
-    const { mutate: addHero } = useAddHero();
-    const { mutate: deleteHero } = useDeleteHero();
+      const { status, data, error, isFetching, refetch } = useHeroes();
+      const { mutate: addHero } = useAddHero();
+      const { mutate: deleteHero } = useDeleteHero();
 
-    const handleAddHero = () => {
-      const hero = { name, alterEgo };
-      addHero(hero);
-    };
+      const handleAddHero = () => {
+        const hero = { name, alterEgo };
+        addHero(hero);
+      };
 
-    const handleDeleteHero = (id) => {
-      deleteHero(id);
-    };
+      const handleDeleteHero = (id) => {
+        deleteHero(id);
+      };
 
-    if (isFetching) {
+      if (isFetching) {
+        return (
+          // ...
+        );
+      }
+
+      /** 아래 코드로 에러 핸들링 끝 */
+      if (status === "error") {
+        // status -> success, loading, error...
+        return (
+          // ...
+        );
+      }
+
       return (
         // ...
       );
-    }
+    };
 
-    /** 아래 코드로 에러 핸들링 끝 */
-    if (status === "error") {
-      // status -> success, loading, error...
-      return (
-        // ...
-      );
-    }
-
-    return (
-      // ...
-    );
-  };
-
-  export default RQHeroes;
+    export default RQHeroes;
   ```
 
 - `useMutation.js` → `useDeleteHero()`
 
   ```JavaScript
-  import { useMutation, useQueryClient } from "@tanstack/react-query";
-  import axios from "axios";
+    import { useMutation, useQueryClient } from "@tanstack/react-query";
+    import axios from "axios";
 
-  const deleteHeroData = async (id) => {
-    return await axios.delete(`http://localhost:5000/superheroes/${id}`);
-  };
+    const deleteHeroData = async (id) => {
+      return await axios.delete(`http://localhost:5000/superheroes/${id}`);
+    };
 
-  export const useDeleteHero = () => {
-    const queryClient = useQueryClient();
+    export const useDeleteHero = () => {
+      const queryClient = useQueryClient();
 
-    return useMutation(deleteHeroData, {
-      onSuccess: () => {
-        queryClient.invalidateQueries("heroes");
-        // post, delete 시, 실시간으로 최신화 시켜주는 작업
-        // 키가 여러 개라면, ["heroes", "detail", ...]
-      },
-    });
-  };
+      return useMutation(deleteHeroData, {
+        onSuccess: () => {
+          queryClient.invalidateQueries("heroes");
+          // post, delete 시, 실시간으로 최신화 시켜주는 작업
+          // 키가 여러 개라면, ["heroes", "detail", ...]
+        },
+      });
+    };
   ```
 
 <br/>
@@ -705,40 +705,40 @@ export const useAddHero = () => {
 - `RQOdnBuoyOxygen.jsx`
 
   ```JavaScript
-  import React, { useState } from "react";
-  import { useBuoyOxygen } from "../hooks/useBuoyOxygen";
-  import { useLocation } from "react-router-dom";
-  import { useNextOxygen } from "../hooks/useNextOxygen";
+    import React, { useState } from "react";
+    import { useBuoyOxygen } from "../hooks/useBuoyOxygen";
+    import { useLocation } from "react-router-dom";
+    import { useNextOxygen } from "../hooks/useNextOxygen";
 
-  const RQOdnBuoyOxygen = () => {
-    const [pageNum, setPageNum] = useState(1);
-    const location = useLocation();
-    const { id, deviceID, serialNumber } = location.state;
-    const { data: nextData } = useNextOxygen(id, pageNum);
-    const nextPage = nextData?.next;
-    // 다음 페이지에 데이터가 존재하는 지를 API 데이터를 통해 체크
-    const { status, data, error, isFetching } = useBuoyOxygen(id, pageNum);
+    const RQOdnBuoyOxygen = () => {
+      const [pageNum, setPageNum] = useState(1);
+      const location = useLocation();
+      const { id, deviceID, serialNumber } = location.state;
+      const { data: nextData } = useNextOxygen(id, pageNum);
+      const nextPage = nextData?.next;
+      // 다음 페이지에 데이터가 존재하는 지를 API 데이터를 통해 체크
+      const { status, data, error, isFetching } = useBuoyOxygen(id, pageNum);
 
-    if (isFetching) {
+      if (isFetching) {
+        return (
+          // ...
+        );
+      }
+
+      /** 아래 코드로 에러 핸들링 끝 */
+      if (status === "error") {
+        // status -> success, loading, error...
+        return (
+          // ...
+        );
+      }
+
       return (
         // ...
       );
-    }
+    };
 
-    /** 아래 코드로 에러 핸들링 끝 */
-    if (status === "error") {
-      // status -> success, loading, error...
-      return (
-        // ...
-      );
-    }
-
-    return (
-      // ...
-    );
-  };
-
-  export default RQOdnBuoyOxygen;
+    export default RQOdnBuoyOxygen;
   ```
 
   - API 통신이기 때문에 다음 페이지에 대한 데이터가 존재하지 않아 `404` 에러가 뜨는 것을 방지
@@ -750,25 +750,25 @@ export const useAddHero = () => {
 - `useNextOxygen.js`
 
   ```JavaScript
-  import { useQuery } from "@tanstack/react-query";
-  import axios from "axios";
+    import { useQuery } from "@tanstack/react-query";
+    import axios from "axios";
 
-  const getNextData = async ({ queryKey }) => {
-    const id = queryKey[1];
-    const pageNum = queryKey[2];
-    return await axios.get(
-      `https://api.odn-it.com/devices/${id}/oxygens/?size=3&page=${pageNum}`
-    );
-  };
+    const getNextData = async ({ queryKey }) => {
+      const id = queryKey[1];
+      const pageNum = queryKey[2];
+      return await axios.get(
+        `https://api.odn-it.com/devices/${id}/oxygens/?size=3&page=${pageNum}`
+      );
+    };
 
-  export const useNextOxygen = (id, pageNum) => {
-    return useQuery(["next-oxygen", id, pageNum], getNextData, {
-      select: (data) => {
-        const nextPage = data?.data;
-        return nextPage;
-      },
-    });
-  };
+    export const useNextOxygen = (id, pageNum) => {
+      return useQuery(["next-oxygen", id, pageNum], getNextData, {
+        select: (data) => {
+          const nextPage = data?.data;
+          return nextPage;
+        },
+      });
+    };
   ```
 
   - 다음 페이지의 데이터가 존재하는지의 여부를 체크하는 코드
@@ -776,30 +776,30 @@ export const useAddHero = () => {
 - `useBuoyOxygen.js`
 
   ```JavaScript
-  import { useQuery } from "@tanstack/react-query";
-  import axios from "axios";
+    import { useQuery } from "@tanstack/react-query";
+    import axios from "axios";
 
-  const getOxygenData = async ({ queryKey }) => {
-    const id = queryKey[1];
-    const pageNum = queryKey[2];
-    return await axios.get(
-      `https://api.odn-it.com/devices/${id}/oxygens/?size=3&page=${pageNum}`
-    );
-  };
+    const getOxygenData = async ({ queryKey }) => {
+      const id = queryKey[1];
+      const pageNum = queryKey[2];
+      return await axios.get(
+        `https://api.odn-it.com/devices/${id}/oxygens/?size=3&page=${pageNum}`
+      );
+    };
 
-  export const useBuoyOxygen = (id, pageNum) => {
-    return useQuery(["oxygen", id, pageNum], getOxygenData, {
-      cacheTime: 5 * 60 * 1000, // 5분
-      staleTime: 1 * 60 * 1000, // 1분
-      refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
-      refetchOnMount: true,
-      retry: 2, // error시 fetch 재시도
-      select: (data) => {
-        const oxygenData = data?.data.results?.map((res) => res);
-        return oxygenData;
-      },
-    });
-  };
+    export const useBuoyOxygen = (id, pageNum) => {
+      return useQuery(["oxygen", id, pageNum], getOxygenData, {
+        cacheTime: 5 * 60 * 1000, // 5분
+        staleTime: 1 * 60 * 1000, // 1분
+        refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
+        refetchOnMount: true,
+        retry: 2, // error시 fetch 재시도
+        select: (data) => {
+          const oxygenData = data?.data.results?.map((res) => res);
+          return oxygenData;
+        },
+      });
+    };
   ```
 
   - 실제 용존산소 데이터 불러오는 코드
@@ -880,89 +880,89 @@ export const useAddHero = () => {
 - `RQOdnInfiniteOxygen.jsx`
 
   ```JavaScript
-  import React, { Fragment, useState } from "react";
-  import { useLocation } from "react-router-dom";
-  import { useInfiniteOxygen } from "../hooks/useInfinite";
-  import { useNextOxygen } from "../hooks/useNextOxygen";
+    import React, { Fragment, useState } from "react";
+    import { useLocation } from "react-router-dom";
+    import { useInfiniteOxygen } from "../hooks/useInfinite";
+    import { useNextOxygen } from "../hooks/useNextOxygen";
 
-  const RQOdnInfiniteOxygen = () => {
-    const [pageNum, setPageNum] = useState(1);
-    const location = useLocation();
-    const { id, deviceID, serialNumber } = location.state;
+    const RQOdnInfiniteOxygen = () => {
+      const [pageNum, setPageNum] = useState(1);
+      const location = useLocation();
+      const { id, deviceID, serialNumber } = location.state;
 
-    const { data: nextData } = useNextOxygen(id, pageNum);
+      const { data: nextData } = useNextOxygen(id, pageNum);
 
-    const pageCount = nextData?.count;
-    const nextPage = nextData?.next;
+      const pageCount = nextData?.count;
+      const nextPage = nextData?.next;
 
-    const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage } =
-      useInfiniteOxygen(id, pageCount);
+      const { status, data, error, isFetching, isFetchingNextPage, fetchNextPage } =
+        useInfiniteOxygen(id, pageCount);
 
-    /** 아래 코드로 에러 핸들링 끝 */
-    if (status === "error") {
-      // status -> success, loading, error...
+      /** 아래 코드로 에러 핸들링 끝 */
+      if (status === "error") {
+        // status -> success, loading, error...
+        return (
+          // ...
+        );
+      }
+
       return (
         // ...
       );
-    }
+    };
 
-    return (
-      // ...
-    );
-  };
-
-  export default RQOdnInfiniteOxygen;
+    export default RQOdnInfiniteOxygen;
   ```
 
 - `useNextOxygen.js`
 
   ```JavaScript
-  import { useQuery } from "@tanstack/react-query";
-  import axios from "axios";
+    import { useQuery } from "@tanstack/react-query";
+    import axios from "axios";
 
-  const getNextData = async ({ queryKey }) => {
-    const id = queryKey[1];
-    const pageNum = queryKey[2];
-    return await axios.get(
-      `https://api.odn-it.com/devices/${id}/oxygens/?size=3&page=${pageNum}`
-    );
-  };
+    const getNextData = async ({ queryKey }) => {
+      const id = queryKey[1];
+      const pageNum = queryKey[2];
+      return await axios.get(
+        `https://api.odn-it.com/devices/${id}/oxygens/?size=3&page=${pageNum}`
+      );
+    };
 
-  export const useNextOxygen = (id, pageNum) => {
-    return useQuery(["next-oxygen", id, pageNum], getNextData, {
-      select: (data) => {
-        const nextPage = data?.data;
-        return nextPage;
-      },
-    });
-  };
+    export const useNextOxygen = (id, pageNum) => {
+      return useQuery(["next-oxygen", id, pageNum], getNextData, {
+        select: (data) => {
+          const nextPage = data?.data;
+          return nextPage;
+        },
+      });
+    };
   ```
 
 - `useInfinite.js`
 
   ```JavaScript
-  import { useInfiniteQuery } from "@tanstack/react-query";
-  import axios from "axios";
+    import { useInfiniteQuery } from "@tanstack/react-query";
+    import axios from "axios";
 
-  const getOxygenData = async ({ queryKey, pageParam = 1 }) => {
-    const id = queryKey[1];
-    return await axios.get(
-      `https://api.odn-it.com/devices/${id}/oxygens/?size=3&page=${pageParam}`
-    );
-  };
+    const getOxygenData = async ({ queryKey, pageParam = 1 }) => {
+      const id = queryKey[1];
+      return await axios.get(
+        `https://api.odn-it.com/devices/${id}/oxygens/?size=3&page=${pageParam}`
+      );
+    };
 
-  export const useInfiniteOxygen = (id, pageCount) => {
-    return useInfiniteQuery(["oxygen-infinite", id], getOxygenData, {
-      cacheTime: 5 * 60 * 1000, // 5분
-      staleTime: 1 * 60 * 1000, // 1분
-      refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
-      refetchOnMount: true,
-      retry: 2, // error시 fetch 재시도
-      getNextPageParam: (_lastPage, allPages) => {
-        return allPages.length < pageCount && allPages.length + 1;
-      },
-    });
-  };
+    export const useInfiniteOxygen = (id, pageCount) => {
+      return useInfiniteQuery(["oxygen-infinite", id], getOxygenData, {
+        cacheTime: 5 * 60 * 1000, // 5분
+        staleTime: 1 * 60 * 1000, // 1분
+        refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
+        refetchOnMount: true,
+        retry: 2, // error시 fetch 재시도
+        getNextPageParam: (_lastPage, allPages) => {
+          return allPages.length < pageCount && allPages.length + 1;
+        },
+      });
+    };
   ```
 
 ### 위의 코드 추가 설명
@@ -978,32 +978,32 @@ export const useAddHero = () => {
 # [Error Handling](#목차)
 
 ```JavaScript
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+  import React from "react";
+  import { useQuery } from "@tanstack/react-query";
+  import axios from "axios";
 
-const RQOdnBuoy = () => {
-  const getBuoyData = async () => {
-    return await axios.get("https://api.odn-it.com/devices/");
+  const RQOdnBuoy = () => {
+    const getBuoyData = async () => {
+      return await axios.get("https://api.odn-it.com/devices/");
+    };
+
+    const { status, data, error } = useQuery(
+      queryKey, // v4부터 배열의 형태로 작성 ex) ["buoy"]
+      queryFn, // Promise를 반환하는 함수 ex) getBuoyData
+      {
+      // 기타 옵션 ex) cacheTime, staleTime, refetchOnWindowFocus, refetchOnMount, retry, ...
+    });
+
+    // 에러 / 로딩 핸들링
+    if (status === "loading") {
+      return <h2>Loading...</h2>;
+    }
+
+    if (status === "error") {
+      return <h2>Error : {error.message}</h2>;
+    }
+
+    // ...
+
   };
-
-  const { status, data, error } = useQuery(
-    queryKey, // v4부터 배열의 형태로 작성 ex) ["buoy"]
-    queryFn, // Promise를 반환하는 함수 ex) getBuoyData
-    {
-    // 기타 옵션 ex) cacheTime, staleTime, refetchOnWindowFocus, refetchOnMount, retry, ...
-  });
-
-  // 에러 / 로딩 핸들링
-  if (status === "loading") {
-    return <h2>Loading...</h2>;
-  }
-
-  if (status === "error") {
-    return <h2>Error : {error.message}</h2>;
-  }
-
-  // ...
-
-};
 ```
