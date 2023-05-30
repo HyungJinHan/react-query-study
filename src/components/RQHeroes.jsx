@@ -10,9 +10,8 @@ const RQHeroes = () => {
 
   const { status, data, error, isFetching, refetch } = useHeroes(pageNum);
   const { data: NextData } = useNextHeroes(pageNum);
-  const { mutate: addHero } = useAddHero();
+  const { mutate: addHero } = useAddHero(pageNum);
   const { mutate: deleteHero } = useDeleteHero();
-  console.log(NextData?.length);
 
   const handleAddHero = () => {
     const hero = { name, alterEgo };

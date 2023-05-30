@@ -17,6 +17,8 @@
     - [구현 코드 (Initail Query Data)](#구현-코드-initail-query-data)
   - [`invalidateQueries`](#invalidatequeries)
     - [구현 코드 (`invalidateQueries`)](#구현-코드-invalidatequeries)
+  - [`setQueryData`](#setquerydata)
+    - [구현 코드 (`setQueryData`)](#구현-코드-setquerydata)
 - [`useMutation` ✨](#usemutation-)
   - [`useMutation`의 `return` 값](#usemutation의-return-값)
     - [`mutate`](#mutate)
@@ -440,6 +442,43 @@ const RQOdnBuoy = () => {
 - 해당 구현 코드는 `useMutation`을 사용한 CRUD 예제 중 하나
 
 - 해당 쿼리를 통해 `queryKey`가 "heroes"인 쿼리의 캐시를 무효화하여 실시간으로 데이터를 최신화
+
+## `setQueryData`
+
+- `invalidateQueries`와 같이 모든 캐시를 무효화 한 뒤 refetch를 하는 경우, 기존의 캐시된 데이터가 많다면 fetch 속도가 느려지는 문제가 생김
+
+### 구현 코드 (`setQueryData`)
+
+```JavaScript
+  import { useMutation, useQueryClient } from "@tanstack/react-query";
+  import axios from "axios";
+
+  const addHeroData = async (hero) => {
+    return await axios.post("http://localhost:5000/superheroes", hero);
+  };
+
+  export const useAddHero = (pageNum) => {
+    const queryClient = useQueryClient();
+
+    return useMutation(addHeroData, {
+      onSuccess: (data) => {
+        queryClient.setQueryData(["heroes", pageNum], (oldData) => {
+          return {
+            ...oldData,
+            data: [...oldData?.data, data?.data],
+          };
+        });
+        // 쿼리의 캐시된 데이터를 즉시 업데이트하여 실시간으로 수정된 부분을 최신화 시켜주는 작업
+      },
+    });
+  };
+```
+
+- 수정된 부분의 쿼리 데이터를 수동으로 설정하여 쿼리 데이터 내부 로직 자체에서 업데이트하도록 설정하는 방법
+
+- 정확한 의미로는 서버와 실시간으로 동기화 됐다고는 볼 수 없음
+
+  - 하지만, UX 부분에서 보자면 피드백이 즉각적으로 이루어지고 있는 것 처럼 보이기 때문에 유리한 부분이 분명 존재함
 
 <br/>
 

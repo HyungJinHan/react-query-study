@@ -13,18 +13,18 @@ const deleteHeroData = async (id) => {
   return await axios.delete(`http://localhost:5000/superheroes/${id}`);
 };
 
-export const useAddHero = () => {
+export const useAddHero = (pageNum) => {
   const queryClient = useQueryClient();
 
   return useMutation(addHeroData, {
     onSuccess: (data) => {
-      queryClient.invalidateQueries("heroes");
-      // queryClient.setQueryData(["heroes"], (oldData) => {
-      //   return {
-      //     ...oldData,
-      //     data: [...oldData.data, data.data],
-      //   };
-      // });
+      queryClient.setQueryData(["heroes", pageNum], (oldData) => {
+        return {
+          ...oldData,
+          data: [...oldData?.data, data?.data],
+        };
+      });
+      // 쿼리의 캐시된 데이터를 즉시 업데이트하여 실시간으로 수정된 부분을 최신화 시켜주는 작업
     },
   });
 };
