@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useBuoyOxygen } from "../hooks/useBuoyOxygen";
 import { useLocation } from "react-router-dom";
+import { useNextOxygen } from "../hooks/useNextOxygen";
 
 const RQOdnBuoyOxygen = () => {
   const [pageNum, setPageNum] = useState(1);
   const location = useLocation();
   const { id, deviceID, serialNumber } = location.state;
+  const { data: nextData } = useNextOxygen(id, pageNum);
+  const nextPage = nextData?.next;
   const { status, data, error, isFetching } = useBuoyOxygen(id, pageNum);
 
   if (isFetching) {
@@ -118,7 +121,7 @@ const RQOdnBuoyOxygen = () => {
           <span style={{ padding: "0px 10px 0px 10px" }}>{pageNum}</span>
           <button
             onClick={() => setPageNum((page) => page + 1)}
-            disabled={data?.length < 3}
+            disabled={nextPage === null || undefined || ""}
           >
             &gt;
           </button>

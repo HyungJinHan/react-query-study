@@ -25,71 +25,84 @@ const RQOdnBuoyDetail = () => {
   }
 
   return (
-    <div style={{ alignItems: "center" }}>
-      <div style={{ width: "95%", margin: "0 auto" }}>
-        <h2>
+    <div style={{ width: "95%", margin: "0 auto" }}>
+      <h2>
+        <span>
+          {data?.serial_number}
+          {data?.device_id}
+        </span>
+      </h2>
+
+      <div style={{ paddingBottom: "1.25rem", paddingTop: "1.25rem" }}>
+        <div style={{ paddingBottom: ".5rem" }}>
           <span>
-            {data?.serial_number}
-            {data?.device_id}
+            <b>Device Type : </b>
           </span>
-        </h2>
+          <span>{data?.device_type}</span>
+        </div>
 
-        <div style={{ paddingBottom: "1.25rem", paddingTop: "1.25rem" }}>
-          <div style={{ paddingBottom: ".5rem" }}>
-            <span>
-              <b>Device Type : </b>
-            </span>
-            <span>{data?.device_type}</span>
-          </div>
+        <div style={{ paddingBottom: ".5rem" }}>
+          <span>
+            <b>Battery : </b>
+          </span>
+          <span>{data?.battery}%</span>
+        </div>
 
-          <div style={{ paddingBottom: ".5rem" }}>
-            <span>
-              <b>Battery : </b>
-            </span>
-            <span>{data?.battery}%</span>
-          </div>
+        <div style={{ paddingBottom: ".5rem" }}>
+          <span>
+            <b>Owner : </b>
+          </span>
+          <span>{data?.owner}</span>
+        </div>
 
-          <div style={{ paddingBottom: ".5rem" }}>
-            <span>
-              <b>Owner : </b>
-            </span>
-            <span>{data?.owner}</span>
-          </div>
+        <div style={{ paddingBottom: ".5rem" }}>
+          <span>
+            <b>Operating State </b>
+          </span>
+          <div
+            style={{
+              width: ".75rem",
+              height: ".75rem",
+              borderRadius: "100%",
+              backgroundColor: data?.operating_state === true ? "green" : "red",
+              display: "inline-flex",
+              marginLeft: ".3125rem",
+            }}
+          />
+        </div>
 
-          <div style={{ paddingBottom: ".5rem" }}>
-            <span>
-              <b>Operating State </b>
-            </span>
-            <div
-              style={{
-                width: ".75rem",
-                height: ".75rem",
-                borderRadius: "100%",
-                backgroundColor:
-                  data?.operating_state === true ? "green" : "red",
-                display: "inline-flex",
-                marginLeft: ".3125rem",
+        <div>
+          <p>
+            <Link
+              to={`/rq-buoy/${id}/oxygen`}
+              state={{
+                id: id,
+                deviceID: data?.device_id,
+                serialNumber: data?.serial_number,
               }}
-            />
-          </div>
+            >
+              <b>
+                {data?.serial_number}
+                {data?.device_id} Oxygen Data (Pagenation)
+              </b>
+            </Link>
+          </p>
 
-          <div>
-            <span>
-              <Link
-                to={`/rq-buoy/${id}/oxygen`}
-                state={{
-                  id: id,
-                  deviceID: data?.device_id,
-                  serialNumber: data?.serial_number,
-                }}
-              >
-                <b>
-                  {data?.serial_number}
-                  {data?.device_id} Oxygen Data
-                </b>
-              </Link>
-            </span>
-          </div>
+          <p>
+            <Link
+              to={`/rq-buoy/${id}/oxygen/infinite`}
+              state={{
+                id: id,
+                deviceID: data?.device_id,
+                serialNumber: data?.serial_number,
+              }}
+            >
+              <b>
+                {data?.serial_number}
+                {data?.device_id} Oxygen Data (Infinite)
+              </b>
+            </Link>
+          </p>
         </div>
       </div>
     </div>

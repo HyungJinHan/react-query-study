@@ -16,8 +16,6 @@ export const useBuoyOxygen = (id, pageNum) => {
     refetchOnWindowFocus: true, // 다른 창을 갔다가 돌아왔을 시, refetch
     refetchOnMount: true,
     retry: 2, // error시 fetch 재시도
-    // refetchInterval: 5000, // polling (시간에 따라 refetch)
-    // refetchIntervalInBackground: false,
     select: (data) => {
       const oxygenData = data?.data.results?.map((res) => res);
       return oxygenData;
