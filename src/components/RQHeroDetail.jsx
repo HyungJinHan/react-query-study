@@ -24,7 +24,7 @@ const RQHeroDetail = () => {
   };
 
   const handleUpdate = () => {
-    updateHero(id, hero);
+    updateHero(id, hero, pageNum);
   };
 
   if (isFetching) {

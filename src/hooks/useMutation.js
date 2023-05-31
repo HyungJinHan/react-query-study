@@ -17,14 +17,42 @@ export const useAddHero = (pageNum) => {
   const queryClient = useQueryClient();
 
   return useMutation(addHeroData, {
-    onSuccess: (data) => {
+    onMutate: async (newData) => {
+      // Optimistic Update(낙관적 업데이트)를 덮어쓰지 않기 위해 쿼리를 수동으로 삭제
+      await queryClient.cancelQueries(["heroes", pageNum]);
+
+      // 이전 값
+      const prevData = queryClient.getQueryData(["heroes", pageNum]);
+
+      // 새로운 값으로 Optimistic Update(낙관적 업데이트) 진행
       queryClient.setQueryData(["heroes", pageNum], (oldData) => {
         return {
           ...oldData,
-          data: [...oldData?.data, data?.data],
+          data: [
+            ...oldData.data,
+            { id: oldData?.data?.length + 1, ...newData },
+          ],
         };
       });
-      // 쿼리의 캐시된 데이터를 즉시 업데이트하여 실시간으로 수정된 부분을 최신화 시켜주는 작업
+
+      console.log({ prevData: { prevData } });
+
+      return {
+        // 값이 들어있는 context 객체를 반환
+        prevData,
+      };
+    },
+
+    // mutation 실패 시, onMutate에서 반환된 context를 사용하여 롤백 진행
+    onError: (_error, _data, context) => {
+      console.log({ prevData: context.prevData });
+      queryClient.setQueryData(["heroes", pageNum], context.prevData);
+    },
+
+    // 오류 또는 성공 후, 항상 데이터 리프레쉬 진행
+    onSettled: () => {
+      console.log({ onSettled: "Refresh" });
+      queryClient.invalidateQueries(["heroes", pageNum]);
     },
   });
 };
