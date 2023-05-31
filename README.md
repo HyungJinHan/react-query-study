@@ -1,18 +1,29 @@
-## 목차
+### 목차
 
+- [React-Query 설치](#react-query-설치)
+- [`Client Props` 연결](#client-props-연결)
+- [`DevTools` 사용](#devtools-사용)
+- [`useQuery`](#usequery)
+  - [`useQuery`의 return 값](#usequery의-return-값)
+  - [`useQuery`의 Options](#usequery의-options)
+- [`useQueries`](#usequeries)
+  - [`useQuery` 여러 개 VS `useQueries`](#usequery-여러-개-vs-usequeries)
+- [`useQueryClient`](#usequeryclient)
+  - [기본 사용법](#기본-사용법)
+  - [Initail Query Data](#initail-query-data)
+  - [`invalidateQueries`](#invalidatequeries)
+  - [`setQueryData`](#setquerydata)
+- [`useMutation` ✨](#usemutation-)
+  - [`useMutation`의 `return` 값](#usemutation의-return-값)
+  - [CRUD 구현 코드](#crud-구현-코드)
 - [`Pagenation`](#pagenation)
-  - [구현 코드 (`Pagenation`)](#구현-코드-pagenation)
-    - [부표 데이터의 용존산소 데이터](#부표-데이터의-용존산소-데이터)
-    - [위의 코드 추가 설명](#위의-코드-추가-설명)
+  - [용존산소 데이터 페이지네이션](#용존산소-데이터-페이지네이션)
 - [`Infinite Query`](#infinite-query)
   - [`useInfiniteQuery`의 return 값](#useinfinitequery의-return-값)
   - [`useInfiniteQuery`의 Options](#useinfinitequery의-options)
-  - [구현 코드 (`Infinite Query`)](#구현-코드-infinite-query)
-    - [부표 데이터의 용존산소 데이터](#부표-데이터의-용존산소-데이터-1)
-    - [위의 코드 추가 설명](#위의-코드-추가-설명-1)
+  - [용존산소 데이터 무한 스크롤](#용존산소-데이터-무한-스크롤)
 - [Optimistic Update](#optimistic-update)
   - [Optimistic Update(낙관적 업데이트)란?](#optimistic-update낙관적-업데이트란)
-  - [구현 코드 (Optimistic Update)](#구현-코드-optimistic-update)
 - [Error Handling](#error-handling)
 
 ## [React-Query 설치](#목차)
@@ -315,8 +326,6 @@ const RQOdnBuoy = () => {
       });
   ```
 
-### 위의 코드를 통한 결론
-
 - 여러 개의 `useQuery`를 선언하는 경우, 일반적으로 쿼리 함수들은 병렬로 요청돼서 처리됨
 
 - 쿼리 여러 개를 동시에 수행하는 경우, 렌더링이 거듭될 때마다 계혹 쿼리가 수행되야 하는 경우가 발생
@@ -542,7 +551,7 @@ const RQOdnBuoy = () => {
 
 - R - Read
 
-  - [`useQuery` 부분 참고](#`useQuery`)
+  - [`useQuery` 부분 참고](#usequery)
 
 - U - Update
 
@@ -707,7 +716,7 @@ const RQOdnBuoy = () => {
 >
 > (다음 페이지 버튼 비활성화를 위함)
 
-### 부표 데이터의 용존산소 데이터
+### 용존산소 데이터 페이지네이션
 
 - `RQOdnBuoyOxygen.jsx`
 
@@ -811,8 +820,6 @@ const RQOdnBuoy = () => {
 
   - 실제 용존산소 데이터 불러오는 코드
 
-### 위의 코드 추가 설명
-
 - [해당 데이터의 REST API 주소 (ODN BUOY DATA API)](https://api.odn-it.com/devices/10/oxygens/?page=6&size=100)
 
 - 해당 API 데이터 구조상, 다음 페이지를 불러올 수 있도록 존재하는 `next` 데이터를 통해 다음 페이지에 해당하는 uri를 체크하도록 데이터 통신을 추가했음
@@ -876,7 +883,7 @@ const RQOdnBuoy = () => {
 
   - `getNextPageParam`의 반대의 속성을 가지고 있음
 
-### 부표 데이터의 용존산소 데이터
+### 용존산소 데이터 무한 스크롤
 
 > API 데이터의 특성을 이용하여 공식 설명 사이트의 예제와 구현하는 방식의 차이가 있음
 >
@@ -970,8 +977,6 @@ const RQOdnBuoy = () => {
     };
   ```
 
-### 위의 코드 추가 설명
-
 - [해당 데이터의 REST API 주소 (ODN BUOY DATA API)](https://api.odn-it.com/devices/10/oxygens/?page=6&size=100)
 
 - 해당 API 데이터 구조상, 다음 페이지를 불러올 수 있도록 존재하는 `next` 데이터를 통해 다음 페이지에 해당하는 uri를 체크하도록 데이터 통신을 추가했음
@@ -1045,7 +1050,7 @@ const RQOdnBuoy = () => {
 
 <br/>
 
-# [Error Handling](#목차)
+## [Error Handling](#목차)
 
 ```JavaScript
   import React from "react";
