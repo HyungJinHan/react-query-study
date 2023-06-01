@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { buoyRequest } from "../utils/axiosUtil";
 
-const getNextData = ({ queryKey }) => {
+const getNextData = async ({ queryKey }) => {
   const id = queryKey[1];
   const pageNum = queryKey[2];
-  return buoyRequest({ url: `/${id}/oxygens/?size=3&page=${pageNum}` });
+  return await buoyRequest({ url: `/${id}/oxygens/?size=3&page=${pageNum}` });
 };
 
 export const useNextOxygen = (id, pageNum) => {

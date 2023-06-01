@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { buoyRequest } from "../utils/axiosUtil";
 
-const getBuoyData = () => {
-  return buoyRequest({ url: "/" });
+const getBuoyData = async () => {
+  return await buoyRequest({ url: "/" });
 };
 
 export const useBuoy = () => {

@@ -5,6 +5,7 @@ const buoyClient = axios.create({ baseURL: "https://api.odn-it.com/devices" });
 
 export const heroRequest = async ({ ...options }) => {
   heroClient.defaults.headers.common.Authorization = "Bearer CLIENT_TOKEN";
+  heroClient.defaults.withCredentials = true;
   const onSuccess = (res) => res;
   const onError = (error) => {
     return error;

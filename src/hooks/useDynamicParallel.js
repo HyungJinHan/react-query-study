@@ -1,8 +1,8 @@
 import { useQueries } from "@tanstack/react-query";
 import { buoyRequest } from "../utils/axiosUtil";
 
-const getOxygenData = (id) => {
-  return buoyRequest({ url: `/${id}/oxygens/` });
+const getOxygenData = async (id) => {
+  return await buoyRequest({ url: `/${id}/oxygens/` });
 };
 
 export const useDynamicParallel = ({ ids }) => {

@@ -1,9 +1,9 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { buoyRequest } from "../utils/axiosUtil";
 
-const getOxygenData = ({ queryKey, pageParam = 1 }) => {
+const getOxygenData = async ({ queryKey, pageParam = 1 }) => {
   const id = queryKey[1];
-  return buoyRequest({ url: `/${id}/oxygens/?size=3&page=${pageParam}` });
+  return await buoyRequest({ url: `/${id}/oxygens/?size=3&page=${pageParam}` });
 };
 
 export const useInfiniteOxygen = (id, pageCount) => {

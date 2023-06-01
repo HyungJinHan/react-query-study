@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { heroRequest } from "../utils/axiosUtil";
 
-const getHeroesData = ({ queryKey }) => {
+const getHeroesData = async ({ queryKey }) => {
   const pageNum = queryKey[1];
-  return heroRequest({ url: `/superheroes?_limit=5&_page=${pageNum}` });
+  return await heroRequest({ url: `/superheroes?_limit=5&_page=${pageNum}` });
 };
 
 export const useHeroes = (pageNum) => {
@@ -17,7 +17,7 @@ export const useHeroes = (pageNum) => {
     // refetchIntervalInBackground: false,
     // enabled: false,
     select: (data) => {
-      const heroes = data?.data.map((hero) => hero);
+      const heroes = data?.data?.map((hero) => hero);
       return heroes;
     },
   });
