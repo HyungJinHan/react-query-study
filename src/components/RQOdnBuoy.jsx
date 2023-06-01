@@ -24,30 +24,28 @@ const RQOdnBuoy = () => {
   }
 
   return (
-    <div style={{ alignItems: "center" }}>
-      <div style={{ width: "95%", margin: "0 auto" }}>
-        <h2>React-Query ODN Buoy Infomation</h2>
-        {data?.map((allData) => {
-          return (
-            <div
-              key={allData.device_id}
-              style={{ paddingBottom: ".625rem", paddingTop: ".625rem" }}
-            >
-              <div style={{ paddingBottom: ".5rem" }}>
-                <span>
-                  <b>Device ID : </b>
-                </span>
-                <span>
-                  <Link to={`/rq-buoy/${allData.device_id}`}>
-                    {allData.serial_number}
-                    {allData.device_id}
-                  </Link>
-                </span>
-              </div>
+    <div style={{ width: "95%", margin: "0 auto" }}>
+      <h2>React-Query ODN Buoy Infomation</h2>
+      {data?.map((allData) => {
+        return (
+          <div
+            key={allData.device_id}
+            style={{ paddingBottom: ".625rem", paddingTop: ".625rem" }}
+          >
+            <div style={{ paddingBottom: ".5rem" }}>
+              <span>
+                <b>Device ID : </b>
+              </span>
+              <span>
+                <Link to={`/rq-buoy/${allData.device_id}`}>
+                  {allData.serial_number}
+                  {allData.device_id}
+                </Link>
+              </span>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

@@ -46,66 +46,62 @@ const RQHeroDetail = () => {
   }
 
   return (
-    <div style={{ alignItems: "center" }}>
-      <div style={{ width: "95%", margin: "0 auto" }}>
-        {updateToggle === false ? (
-          <>
-            <h2>{data.name}'s Infomation</h2>
-            <div
-              key={data.id}
-              style={{ paddingBottom: ".625rem", paddingTop: ".625rem" }}
-            >
-              <div style={{ paddingBottom: ".5rem" }}>
-                <span>
-                  <b>{data.name}</b> is {data.alterEgo}
-                </span>
-              </div>
+    <div style={{ width: "95%", margin: "0 auto" }}>
+      {updateToggle === false ? (
+        <>
+          <h2>{data.name}'s Infomation</h2>
+          <div
+            key={data.id}
+            style={{ paddingBottom: ".625rem", paddingTop: ".625rem" }}
+          >
+            <div style={{ paddingBottom: ".5rem" }}>
+              <span>
+                <b>{data.name}</b> is {data.alterEgo}
+              </span>
             </div>
+          </div>
 
-            <button onClick={() => setUpdateToggle(!updateToggle)}>
-              Update
-            </button>
-          </>
-        ) : (
-          <>
-            <h2>Update {data.name}'s Infomation</h2>
-            <div
-              key={data.id}
-              style={{ paddingBottom: ".625rem", paddingTop: ".625rem" }}
-            >
-              <div style={{ paddingBottom: ".5rem" }}>
-                <span>
-                  <input
-                    type="text"
-                    defaultValue={data.name}
-                    name="name"
-                    onChange={handleChange}
-                  />
-                  &nbsp;is&nbsp;
-                  <input
-                    type="text"
-                    defaultValue={data.alterEgo}
-                    name="alterEgo"
-                    onChange={handleChange}
-                  />
-                </span>
-              </div>
+          <button onClick={() => setUpdateToggle(!updateToggle)}>Update</button>
+        </>
+      ) : (
+        <>
+          <h2>Update {data.name}'s Infomation</h2>
+          <div
+            key={data.id}
+            style={{ paddingBottom: ".625rem", paddingTop: ".625rem" }}
+          >
+            <div style={{ paddingBottom: ".5rem" }}>
+              <span>
+                <input
+                  type="text"
+                  defaultValue={data.name}
+                  name="name"
+                  onChange={handleChange}
+                />
+                &nbsp;is&nbsp;
+                <input
+                  type="text"
+                  defaultValue={data.alterEgo}
+                  name="alterEgo"
+                  onChange={handleChange}
+                />
+              </span>
             </div>
+          </div>
 
-            <button
-              style={{ marginRight: ".625rem" }}
-              onClick={() => {
-                handleUpdate();
-                setUpdateToggle(!updateToggle);
-              }}
-            >
-              Confirm
-            </button>
+          <button
+            style={{ marginRight: ".625rem" }}
+            onClick={() => {
+              handleUpdate();
+              setUpdateToggle(!updateToggle);
+            }}
+          >
+            Confirm
+          </button>
 
-            <button onClick={() => setUpdateToggle(false)}>Cancle</button>
-          </>
-        )}
-      </div>
+          <button onClick={() => setUpdateToggle(false)}>Cancle</button>
+        </>
+      )}
     </div>
   );
 };

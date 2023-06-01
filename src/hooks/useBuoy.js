@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { buoyRequest } from "../utils/axiosUtil";
 
-const getBuoyData = async () => {
-  return await axios.get("https://api.odn-it.com/devices/");
+const getBuoyData = () => {
+  return buoyRequest({ url: "/" });
 };
 
 export const useBuoy = () => {

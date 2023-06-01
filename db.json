@@ -39,36 +39,6 @@
       "name": "Hulk",
       "alterEgo": "Bruce Banner",
       "id": 8
-    },
-    {
-      "name": "Test Data",
-      "alterEgo": "Test Data",
-      "id": 9
-    },
-    {
-      "name": "123",
-      "alterEgo": "123",
-      "id": 10
-    },
-    {
-      "name": "123",
-      "alterEgo": "123",
-      "id": 11
-    },
-    {
-      "name": "123213",
-      "alterEgo": "123123",
-      "id": 12
-    },
-    {
-      "name": "123",
-      "alterEgo": "123",
-      "id": 13
-    },
-    {
-      "name": "123",
-      "alterEgo": "123",
-      "id": 14
     }
   ]
 }

@@ -41,76 +41,76 @@ const RQHeroes = () => {
   }
 
   return (
-    <div style={{ alignItems: "center" }}>
-      <div style={{ width: "95%", margin: "0 auto" }}>
-        <h2>React-Query Hero Data</h2>
+    <div style={{ width: "95%", margin: "0 auto" }}>
+      <h2>React-Query Hero Data</h2>
 
-        <div style={{ paddingBottom: "1.25rem" }}>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            style={{ marginRight: ".625rem" }}
-          />
-          <input
-            type="text"
-            value={alterEgo}
-            onChange={(e) => setAlterEgo(e.target.value)}
-            style={{ marginRight: ".625rem" }}
-          />
+      <div style={{ paddingBottom: "1.25rem" }}>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          style={{ marginRight: ".625rem" }}
+          placeholder="Hero's Name"
+        />
+        <input
+          type="text"
+          value={alterEgo}
+          onChange={(e) => setAlterEgo(e.target.value)}
+          style={{ marginRight: ".625rem" }}
+          placeholder="Hero's Real Name"
+        />
 
-          <button
-            onClick={() => {
-              handleAddHero();
-              setName("");
-              setAlterEgo("");
-            }}
+        <button
+          onClick={() => {
+            handleAddHero();
+            setName("");
+            setAlterEgo("");
+          }}
+        >
+          Add Hero
+        </button>
+      </div>
+
+      <div style={{ marginBottom: ".625rem" }}>
+        <button onClick={refetch}>Fetch Data</button>
+      </div>
+      {data?.map((hero) => {
+        return (
+          <div
+            key={hero.id}
+            style={{ paddingBottom: ".625rem", paddingTop: ".625rem" }}
           >
-            Add Hero
-          </button>
-        </div>
-
-        <div style={{ marginBottom: ".625rem" }}>
-          <button onClick={refetch}>Fetch Data</button>
-        </div>
-        {data?.map((hero) => {
-          return (
-            <div
-              key={hero.id}
-              style={{ paddingBottom: ".625rem", paddingTop: ".625rem" }}
-            >
-              <div style={{ paddingBottom: ".5rem" }}>
-                <span>
-                  <b>{hero.id}.&nbsp;</b>
-                  <Link to={`/rq-hero/${hero.id}`} state={pageNum}>
-                    <b>{hero.name}</b>
-                  </Link>
-                </span>
-                <button
-                  style={{ marginLeft: ".625rem" }}
-                  onClick={() => handleDeleteHero(hero.id)}
-                >
-                  Delete Hero
-                </button>
-              </div>
+            <div style={{ paddingBottom: ".5rem" }}>
+              <span>
+                <b>{hero.id}.&nbsp;</b>
+                <Link to={`/rq-hero/${hero.id}`} state={pageNum}>
+                  <b>{hero.name}</b>
+                </Link>
+              </span>
+              <button
+                style={{ marginLeft: ".625rem" }}
+                onClick={() => handleDeleteHero(hero.id)}
+              >
+                Delete Hero
+              </button>
             </div>
-          );
-        })}
-        <div style={{ marginBottom: ".625rem" }}>
-          <button
-            onClick={() => setPageNum((page) => page - 1)}
-            disabled={pageNum === 1}
-          >
-            &lt;
-          </button>
-          <span style={{ padding: "0px 10px 0px 10px" }}>{pageNum}</span>
-          <button
-            onClick={() => setPageNum((page) => page + 1)}
-            disabled={NextData?.length < 1}
-          >
-            &gt;
-          </button>
-        </div>
+          </div>
+        );
+      })}
+      <div style={{ marginBottom: ".625rem" }}>
+        <button
+          onClick={() => setPageNum((page) => page - 1)}
+          disabled={pageNum === 1}
+        >
+          &lt;
+        </button>
+        <span style={{ padding: "0px 10px 0px 10px" }}>{pageNum}</span>
+        <button
+          onClick={() => setPageNum((page) => page + 1)}
+          disabled={NextData?.length < 1}
+        >
+          &gt;
+        </button>
       </div>
     </div>
   );

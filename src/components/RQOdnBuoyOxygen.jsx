@@ -30,102 +30,100 @@ const RQOdnBuoyOxygen = () => {
   }
 
   return (
-    <div style={{ alignItems: "center" }}>
-      <div style={{ width: "95%", margin: "0 auto" }}>
-        <h2>
-          <span>
-            {serialNumber}
-            {deviceID} Oxygen Data
-          </span>
-        </h2>
+    <div style={{ width: "95%", margin: "0 auto" }}>
+      <h2>
+        <span>
+          {serialNumber}
+          {deviceID} Oxygen Data
+        </span>
+      </h2>
 
-        {data?.map((res, index) => {
-          return (
-            <div
-              key={index}
-              style={{
-                paddingBottom: ".625rem",
-                paddingTop: ".625rem",
-              }}
-            >
-              <div style={{ paddingBottom: ".5rem" }}>
-                <span>
-                  <b>Sensor Serial Number : </b>
-                </span>
-                <span>
-                  {res?.serial_number}
-                  {deviceID}
-                </span>
-              </div>
-
-              <div style={{ paddingBottom: ".5rem" }}>
-                <span>
-                  <b>Water Temperature : </b>
-                </span>
-                {res?.temperature === undefined ? (
-                  <span>N/A</span>
-                ) : (
-                  <span>{(res?.temperature).toFixed(2)}℃</span>
-                )}
-              </div>
-
-              <div style={{ paddingBottom: ".5rem" }}>
-                <span>
-                  <b>Oxygen Percent : </b>
-                </span>
-                {res?.temperature === undefined ? (
-                  <span>N/A</span>
-                ) : (
-                  <span>{(res?.oxygen_per).toFixed(2)}%</span>
-                )}
-              </div>
-
-              <div style={{ paddingBottom: ".5rem" }}>
-                <span>
-                  <b>Dissolved Oxygen : </b>
-                </span>
-                {res?.temperature === undefined ? (
-                  <span>N/A</span>
-                ) : (
-                  <span>{(res?.oxygen_ppm).toFixed(2)}ppm</span>
-                )}
-              </div>
-
-              <div style={{ paddingBottom: ".5rem" }}>
-                <span>
-                  <b>Measured Time : </b>
-                </span>
-                <span>{res?.measured_time}</span>
-              </div>
-
-              <div style={{ paddingBottom: ".5rem" }}>
-                <span>
-                  <b>Location : </b>
-                </span>
-                {res?.location?.address === undefined ? (
-                  <span>N/A</span>
-                ) : (
-                  <span>{res?.location?.address}</span>
-                )}
-              </div>
+      {data?.map((res, index) => {
+        return (
+          <div
+            key={index}
+            style={{
+              paddingBottom: ".625rem",
+              paddingTop: ".625rem",
+            }}
+          >
+            <div style={{ paddingBottom: ".5rem" }}>
+              <span>
+                <b>Sensor Serial Number : </b>
+              </span>
+              <span>
+                {res?.serial_number}
+                {deviceID}
+              </span>
             </div>
-          );
-        })}
-        <div style={{ marginBottom: ".625rem" }}>
-          <button
-            onClick={() => setPageNum((page) => page - 1)}
-            disabled={pageNum === 1}
-          >
-            &lt;
-          </button>
-          <span style={{ padding: "0px 10px 0px 10px" }}>{pageNum}</span>
-          <button
-            onClick={() => setPageNum((page) => page + 1)}
-            disabled={nextPage === null || undefined || ""}
-          >
-            &gt;
-          </button>
-        </div>
+
+            <div style={{ paddingBottom: ".5rem" }}>
+              <span>
+                <b>Water Temperature : </b>
+              </span>
+              {res?.temperature === undefined ? (
+                <span>N/A</span>
+              ) : (
+                <span>{(res?.temperature).toFixed(2)}℃</span>
+              )}
+            </div>
+
+            <div style={{ paddingBottom: ".5rem" }}>
+              <span>
+                <b>Oxygen Percent : </b>
+              </span>
+              {res?.temperature === undefined ? (
+                <span>N/A</span>
+              ) : (
+                <span>{(res?.oxygen_per).toFixed(2)}%</span>
+              )}
+            </div>
+
+            <div style={{ paddingBottom: ".5rem" }}>
+              <span>
+                <b>Dissolved Oxygen : </b>
+              </span>
+              {res?.temperature === undefined ? (
+                <span>N/A</span>
+              ) : (
+                <span>{(res?.oxygen_ppm).toFixed(2)}ppm</span>
+              )}
+            </div>
+
+            <div style={{ paddingBottom: ".5rem" }}>
+              <span>
+                <b>Measured Time : </b>
+              </span>
+              <span>{res?.measured_time}</span>
+            </div>
+
+            <div style={{ paddingBottom: ".5rem" }}>
+              <span>
+                <b>Location : </b>
+              </span>
+              {res?.location?.address === undefined ? (
+                <span>N/A</span>
+              ) : (
+                <span>{res?.location?.address}</span>
+              )}
+            </div>
+          </div>
+        );
+      })}
+      <div style={{ marginBottom: ".625rem" }}>
+        <button
+          onClick={() => setPageNum((page) => page - 1)}
+          disabled={pageNum === 1}
+        >
+          &lt;
+        </button>
+        <span style={{ padding: "0px 10px 0px 10px" }}>{pageNum}</span>
+        <button
+          onClick={() => setPageNum((page) => page + 1)}
+          disabled={nextPage === null || undefined || ""}
+        >
+          &gt;
+        </button>
       </div>
     </div>
   );

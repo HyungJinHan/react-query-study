@@ -1,9 +1,9 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { heroRequest } from "../utils/axiosUtil";
 
-const getHeroDetail = async ({ queryKey }) => {
+const getHeroDetail = ({ queryKey }) => {
   const id = queryKey[1];
-  return await axios.get(`http://localhost:5000/superheroes/${id}`);
+  return heroRequest({ url: `/superheroes/${id}` });
 };
 
 export const useHeroDetail = (id, pageNum) => {

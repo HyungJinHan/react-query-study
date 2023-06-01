@@ -1,8 +1,8 @@
 import { useQueries } from "@tanstack/react-query";
-import axios from "axios";
+import { buoyRequest } from "../utils/axiosUtil";
 
-const getOxygenData = async (id) => {
-  return await axios.get(`https://api.odn-it.com/devices/${id}/oxygens/`);
+const getOxygenData = (id) => {
+  return buoyRequest({ url: `/${id}/oxygens/` });
 };
 
 export const useDynamicParallel = ({ ids }) => {

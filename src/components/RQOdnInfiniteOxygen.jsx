@@ -27,108 +27,106 @@ const RQOdnInfiniteOxygen = () => {
   }
 
   return (
-    <div style={{ alignItems: "center" }}>
-      <div style={{ width: "95%", margin: "0 auto" }}>
-        <h2>
-          <span>
-            {serialNumber}
-            {deviceID} Oxygen Data
-          </span>
-        </h2>
+    <div style={{ width: "95%", margin: "0 auto" }}>
+      <h2>
+        <span>
+          {serialNumber}
+          {deviceID} Oxygen Data
+        </span>
+      </h2>
 
-        {data?.pages.map((group, index) => {
-          return (
-            <Fragment key={index}>
-              {group?.data.results.map((res, index) => {
-                return (
-                  <div
-                    key={index}
-                    style={{
-                      paddingBottom: ".625rem",
-                      paddingTop: ".625rem",
-                    }}
-                  >
-                    <div style={{ paddingBottom: ".5rem" }}>
-                      <span>
-                        <b>Sensor Serial Number : </b>
-                      </span>
-                      <span>
-                        {res?.serial_number}
-                        {deviceID}
-                      </span>
-                    </div>
-
-                    <div style={{ paddingBottom: ".5rem" }}>
-                      <span>
-                        <b>Water Temperature : </b>
-                      </span>
-                      {res?.temperature === undefined ? (
-                        <span>N/A</span>
-                      ) : (
-                        <span>{(res?.temperature).toFixed(2)}℃</span>
-                      )}
-                    </div>
-
-                    <div style={{ paddingBottom: ".5rem" }}>
-                      <span>
-                        <b>Oxygen Percent : </b>
-                      </span>
-                      {res?.temperature === undefined ? (
-                        <span>N/A</span>
-                      ) : (
-                        <span>{(res?.oxygen_per).toFixed(2)}%</span>
-                      )}
-                    </div>
-
-                    <div style={{ paddingBottom: ".5rem" }}>
-                      <span>
-                        <b>Dissolved Oxygen : </b>
-                      </span>
-                      {res?.temperature === undefined ? (
-                        <span>N/A</span>
-                      ) : (
-                        <span>{(res?.oxygen_ppm).toFixed(2)}ppm</span>
-                      )}
-                    </div>
-
-                    <div style={{ paddingBottom: ".5rem" }}>
-                      <span>
-                        <b>Measured Time : </b>
-                      </span>
-                      <span>{res?.measured_time}</span>
-                    </div>
-
-                    <div style={{ paddingBottom: ".5rem" }}>
-                      <span>
-                        <b>Location : </b>
-                      </span>
-                      {res?.location?.address === undefined ? (
-                        <span>N/A</span>
-                      ) : (
-                        <span>{res?.location?.address}</span>
-                      )}
-                    </div>
+      {data?.pages.map((group, index) => {
+        return (
+          <Fragment key={index}>
+            {group?.data.results.map((res, index) => {
+              return (
+                <div
+                  key={index}
+                  style={{
+                    paddingBottom: ".625rem",
+                    paddingTop: ".625rem",
+                  }}
+                >
+                  <div style={{ paddingBottom: ".5rem" }}>
+                    <span>
+                      <b>Sensor Serial Number : </b>
+                    </span>
+                    <span>
+                      {res?.serial_number}
+                      {deviceID}
+                    </span>
                   </div>
-                );
-              })}
-            </Fragment>
-          );
-        })}
-        <div style={{ marginBottom: ".625rem" }}>
-          <button
-            disabled={nextPage === null || "" || undefined}
-            onClick={() => {
-              fetchNextPage();
-              setPageNum(pageNum + 1);
-            }}
-          >
-            Load More
-          </button>
-        </div>
 
-        <div style={{ marginBottom: ".625rem" }}>
-          {isFetching && !isFetchingNextPage ? "Fetching..." : null}
-        </div>
+                  <div style={{ paddingBottom: ".5rem" }}>
+                    <span>
+                      <b>Water Temperature : </b>
+                    </span>
+                    {res?.temperature === undefined ? (
+                      <span>N/A</span>
+                    ) : (
+                      <span>{(res?.temperature).toFixed(2)}℃</span>
+                    )}
+                  </div>
+
+                  <div style={{ paddingBottom: ".5rem" }}>
+                    <span>
+                      <b>Oxygen Percent : </b>
+                    </span>
+                    {res?.temperature === undefined ? (
+                      <span>N/A</span>
+                    ) : (
+                      <span>{(res?.oxygen_per).toFixed(2)}%</span>
+                    )}
+                  </div>
+
+                  <div style={{ paddingBottom: ".5rem" }}>
+                    <span>
+                      <b>Dissolved Oxygen : </b>
+                    </span>
+                    {res?.temperature === undefined ? (
+                      <span>N/A</span>
+                    ) : (
+                      <span>{(res?.oxygen_ppm).toFixed(2)}ppm</span>
+                    )}
+                  </div>
+
+                  <div style={{ paddingBottom: ".5rem" }}>
+                    <span>
+                      <b>Measured Time : </b>
+                    </span>
+                    <span>{res?.measured_time}</span>
+                  </div>
+
+                  <div style={{ paddingBottom: ".5rem" }}>
+                    <span>
+                      <b>Location : </b>
+                    </span>
+                    {res?.location?.address === undefined ? (
+                      <span>N/A</span>
+                    ) : (
+                      <span>{res?.location?.address}</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </Fragment>
+        );
+      })}
+      <div style={{ marginBottom: ".625rem" }}>
+        <button
+          disabled={nextPage === null || "" || undefined}
+          onClick={() => {
+            fetchNextPage();
+            setPageNum(pageNum + 1);
+          }}
+        >
+          Load More
+        </button>
+      </div>
+
+      <div style={{ marginBottom: ".625rem" }}>
+        {isFetching && !isFetchingNextPage ? "Fetching..." : null}
       </div>
     </div>
   );

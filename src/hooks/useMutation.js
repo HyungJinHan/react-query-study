@@ -1,16 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { heroRequest } from "../utils/axiosUtil";
 
-const addHeroData = async (hero) => {
-  return await axios.post("http://localhost:5000/superheroes", hero);
+const addHeroData = (hero) => {
+  return heroRequest({ url: "/superheroes", method: "post", data: hero });
 };
 
-const updateHeroData = async (id, hero) => {
-  return await axios.put(`http://localhost:5000/superheroes/${id}`, hero);
+const updateHeroData = (id, hero) => {
+  return heroRequest({ url: `/superheroes/${id}`, method: "put", data: hero });
 };
 
-const deleteHeroData = async (id) => {
-  return await axios.delete(`http://localhost:5000/superheroes/${id}`);
+const deleteHeroData = (id) => {
+  return heroRequest({ url: `/superheroes/${id}`, method: "delete" });
 };
 
 export const useAddHero = (pageNum) => {

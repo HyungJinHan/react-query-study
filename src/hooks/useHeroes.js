@@ -1,12 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { heroRequest } from "../utils/axiosUtil";
 
-const getHeroesData = async ({ queryKey }) => {
+const getHeroesData = ({ queryKey }) => {
   const pageNum = queryKey[1];
-
-  return await axios.get(
-    `http://localhost:5000/superheroes?_limit=5&_page=${pageNum}`
-  );
+  return heroRequest({ url: `/superheroes?_limit=5&_page=${pageNum}` });
 };
 
 export const useHeroes = (pageNum) => {
