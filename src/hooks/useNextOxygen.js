@@ -10,7 +10,7 @@ const getNextData = async ({ queryKey }) => {
 export const useNextOxygen = (id, pageNum) => {
   return useQuery(["next-oxygen", id, pageNum], getNextData, {
     select: (data) => {
-      const nextPage = data?.data;
+      const nextPage = data.data;
       return nextPage;
     },
   });

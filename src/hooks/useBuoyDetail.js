@@ -21,7 +21,7 @@ export const useBuoyDetail = (id) => {
       // refetchInterval: 5000, // polling (시간에 따라 refetch)
       // refetchIntervalInBackground: false,
       select: (data) => {
-        const detailData = data?.data;
+        const detailData = data.data;
         return detailData;
       },
       initialData: () => {

@@ -17,7 +17,7 @@ export const useHeroes = (pageNum) => {
     // refetchIntervalInBackground: false,
     // enabled: false,
     select: (data) => {
-      const heroes = data?.data?.map((hero) => hero);
+      const heroes = data?.data.map((hero) => hero);
       return heroes;
     },
   });
